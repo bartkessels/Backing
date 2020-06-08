@@ -1,5 +1,10 @@
 # Backing
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Build Status](https://travis-ci.org/bartkessels/backing.svg?branch=development)](https://travis-ci.org/bartkessels/backing)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f9919567041d4715889d643b784e661f)](https://www.codacy.com/manual/bartkessels/backing?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=bartkessels/backing&amp;utm_campaign=Badge_Grade)
+[![codecov](https://codecov.io/gh/bartkessels/backing/branch/development/graph/badge.svg)](https://codecov.io/gh/bartkessels/backing)
+
 Application to mock your back-end for front-end testing
 
 ## Table of contents
