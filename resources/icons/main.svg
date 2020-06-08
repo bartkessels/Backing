@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> <!-- Created with Vectornator for iOS (http://vectornator.io/) --><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1" viewBox="0 0 512 512">
+<metadata>
+<vectornator:setting key="DynamicGuides" value="1"/>
+<vectornator:setting key="Units" value="Points"/>
+<vectornator:setting key="GridSpacing" value="36"/>
+<vectornator:setting key="SnapToGuides" value="1"/>
+<vectornator:setting key="RulersVisible" value="1"/>
+</metadata>
+<defs/>
+<g id="Layer 1" vectornator:layerName="Layer 1">
+<path d="M122.826+25L389.174+25C442.386+25+485.523+72.0697+485.523+130.133L485.523+381.867C485.523+439.93+442.386+487+389.174+487L122.826+487C69.6142+487+26.4775+439.93+26.4775+381.867L26.4775+130.133C26.4775+72.0697+69.6142+25+122.826+25Z" fill-rule="evenodd" fill="#ffd44e" opacity="1"/>
+<text vectornator:shadowColor="#000000" x="0" vectornator:shadowOffset="10" font-family="Menlo-Regular" fill="#ffffff" font-size="300" transform="matrix(1 0 0 1 164.192 81)" opacity="0.791924" vectornator:shadowAngle="1.5708" vectornator:shadowRadius="10" text-anchor="start" y="0" vectornator:width="183.615" vectornator:text="&amp;" vectornator:shadowOpacity="0.178407">
+<tspan x="0" y="278" textLength="180.615">
+&amp;</tspan>
+</text>
+</g>
+</svg>
