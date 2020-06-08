@@ -13,9 +13,11 @@ set(CMAKE_CXX_STANDARD 20)
 set(SOURCEFILES
         domain/CppRestRequestListener.cpp
         domain/RequestListener.cpp
+        domain/RequestListenerFactory.cpp
 
         gui/MainWindow/MainWindow.cpp
-        gui/widget/ResponseWidget/ResponseWidget.cpp
+        gui/widget/LoggingWidget/LoggingWidget.cpp
+        gui/widget/RequestListenerWidget/RequestListenerWidget.cpp
 
         main.cpp
 )
@@ -27,12 +29,12 @@ set(HEADERFILES
         domain/Logger.hpp
         domain/Request.hpp
         domain/RequestListener.hpp
+        domain/RequestListenerFactory.hpp
         domain/Response.hpp
 
-        domain/TempLogger.hpp
-
         gui/MainWindow/MainWindow.hpp
-        gui/widget/ResponseWidget/ResponseWidget.hpp
+        gui/widget/LoggingWidget/LoggingWidget.hpp
+        gui/widget/RequestListenerWidget/RequestListenerWidget.hpp
 )
 
 add_executable(
