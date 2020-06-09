@@ -11,6 +11,8 @@ set(SRCFILES
         ../src/domain/exception/InvalidResponseException.hpp
         ../src/domain/exception/ListenerAlreadyClosedException.hpp
         ../src/domain/exception/ListenerAlreadyStartedException.hpp
+        ../src/domain/exception/UnableToCloseConnectionException.hpp
+        ../src/domain/exception/UnableToStartConnectionException.hpp
         ../src/domain/CppRestRequestListener.cpp
         ../src/domain/RequestListener.cpp
         ../src/domain/RequestListenerFactory.cpp
@@ -22,6 +24,8 @@ set(TST_SRCFILES
 
         domain/exception/tst_ListenerAlreadyClosedException.cpp
         domain/exception/tst_ListenerAlreadyStartedException.cpp
+        domain/exception/tst_UnableToCloseConnectionException.cpp
+        domain/exception/tst_UnableToStartConnectionException.cpp
         domain/tst_CppRestRequestListener.cpp
         domain/tst_Request.cpp
         domain/tst_RequestListenerFactory.cpp

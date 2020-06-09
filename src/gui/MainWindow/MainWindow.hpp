@@ -3,6 +3,7 @@
 #include <list>
 #include <memory>
 #include <QMainWindow>
+#include <QMessageBox>
 #include <QPushButton>
 #include <QTabWidget>
 

@@ -1,10 +1,10 @@
 #include <catch2/catch.hpp>
 
-#include "domain/exception/ListenerAlreadyStartedException.hpp"
+#include "domain/exception/UnableToCloseConnectionException.hpp"
 
 using namespace backing::domain;
 
-TEST_CASE("ListenerAlreadyStartedException")
+TEST_CASE("UnableToCloseConnectionException")
 {
     SECTION("what contains both the method and the resource of the request")
     {
@@ -13,8 +13,8 @@ TEST_CASE("ListenerAlreadyStartedException")
         const auto& resource = "/error_message";
 
         try {
-            throw exception::ListenerAlreadyStartedException(method, resource);
-        } catch(exception::ListenerAlreadyStartedException& ex) {
+            throw exception::UnableToCloseConnectionException(method, resource);
+        } catch(exception::UnableToCloseConnectionException& ex) {
             REQUIRE_THAT(ex.what(), Catch::Matchers::Contains(method));
             REQUIRE_THAT(ex.what(), Catch::Matchers::Contains(resource));
         }

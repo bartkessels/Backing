@@ -27,6 +27,8 @@ set(HEADERFILES
         domain/exception/InvalidResponseException.hpp
         domain/exception/ListenerAlreadyClosedException.hpp
         domain/exception/ListenerAlreadyStartedException.hpp
+        domain/exception/UnableToCloseConnectionException.hpp
+        domain/exception/UnableToStartConnectionException.hpp
         domain/CppRestRequestListener.hpp
         domain/Logger.hpp
         domain/Request.hpp

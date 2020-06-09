@@ -32,181 +32,280 @@ void sendRequest(const std::string& method, const std::string& uri, std::functio
 TEST_CASE("CppRestRequestListener")
 {
     // Before
-    const std::string& baseUri = "http://localhost:1384";
+    std::string baseUri = "http://localhost:1384";
     const auto& mockedLogger = std::make_shared<mock::MockLogger>();
 
     const auto& sut = std::make_shared<CppRestRequestListener>(mockedLogger);
 
-    SECTION("startListening throws ListenerAlreadyStartedException when called twice in a row")
+//    SECTION("startListening throws ListenerAlreadyStartedException when called twice in a row")
+//    {
+//        // Arrange
+//        const auto& request = std::make_shared<Request>();
+//        const auto& response = std::make_shared<Response>();
+//
+//        request->method = "GET";
+//        request->baseUri = baseUri;
+//        request->resource = "/";
+//
+//        response->statusCode = 200;
+//        response->contentType = "text/plain";
+//
+//        // Act
+//        sut->listenFor(request).respondWith(response);
+//        sut->startListening();
+//
+//        // Assert
+//        CHECK_THROWS_AS(sut->startListening(), exception::ListenerAlreadyStartedException);
+//    }
+//
+//    SECTION("stopListening throws ListenerAlreadyClosedException when called twice")
+//    {
+//        // Arrange
+//        const auto& request = std::make_shared<Request>();
+//        const auto& response = std::make_shared<Response>();
+//
+//        request->method = "GET";
+//        request->baseUri = baseUri;
+//        request->resource = "/";
+//
+//        response->statusCode = 200;
+//        response->contentType = "text/plain";
+//
+//        // Act
+//        sut->listenFor(request).respondWith(response);
+//        sut->startListening();
+//        sut->stopListening();
+//
+//        // Assert
+//        CHECK_THROWS_AS(sut->stopListening(), exception::ListenerAlreadyClosedException);
+//    }
+//
+//    SECTION("stopListening throws ListenerAlreadyClosedException when trying to stop the listener before starting")
+//    {
+//        // Arrange
+//        const auto& request = std::make_shared<Request>();
+//        const auto& response = std::make_shared<Response>();
+//
+//        request->method = "GET";
+//        request->baseUri = baseUri;
+//        request->resource = "/";
+//
+//        response->statusCode = 200;
+//        response->contentType = "text/plain";
+//
+//        // Act
+//        sut->listenFor(request).respondWith(response);
+//
+//        // Assert
+//        CHECK_THROWS_AS(sut->stopListening(), exception::ListenerAlreadyClosedException);
+//    }
+//
+//    SECTION("startListening returns the response for the exact resource")
+//    {
+//        // Arrange
+//        const auto& request = std::make_shared<Request>();
+//        const auto& response = std::make_shared<Response>();
+//
+//        request->method = "GET";
+//        request->baseUri = baseUri;
+//        request->resource = "/test";
+//
+//        response->statusCode = 201;
+//        response->contentType = "text/plain";
+//        response->body = "created";
+//
+//        sut->listenFor(request).respondWith(response);
+//        sut->startListening();
+//
+//        // Act & Assert
+//        sendRequest(request->method, request->completeUri(), [=](const web::http::http_response& actualResponse) {
+//            REQUIRE(response->body == actualResponse.extract_string().get());
+//            REQUIRE(response->contentType == actualResponse.headers().content_type());
+//            REQUIRE(response->statusCode == actualResponse.status_code());
+//        });
+//    }
+//
+//    SECTION("startListening returns 404 for a non-existing resource")
+//    {
+//        // Arrange
+//        const auto& request = std::make_shared<Request>();
+//        const auto& response = std::make_shared<Response>();
+//
+//        request->method = "GET";
+//        request->baseUri = baseUri;
+//        request->resource = "/test";
+//
+//        response->statusCode = 201;
+//        response->contentType = "text/plain";
+//        response->body = "created";
+//
+//        sut->listenFor(request).respondWith(response);
+//
+//        // Act
+//        sut->startListening();
+//
+//        // Assert
+//        sendRequest(request->method, request->baseUri + "/non-existing", [=](const web::http::http_response& actualResponse) {
+//            REQUIRE(web::http::status_codes::NotFound == actualResponse.status_code());
+//        });
+//    }
+//
+//    SECTION("startListening does not respond to updated request without restart")
+//    {
+//        // Arrange
+//        const auto& oldRequest = std::make_shared<Request>();
+//        const auto& newRequest = std::make_shared<Request>();
+//        const auto& response = std::make_shared<Response>();
+//
+//        oldRequest->method = "GET";
+//        oldRequest->baseUri = baseUri;
+//        oldRequest->resource = "/old";
+//
+//        newRequest->method = "POST";
+//        newRequest->baseUri = baseUri;
+//        newRequest->resource = "/new";
+//
+//        response->statusCode = 200;
+//        response->contentType = "text/plain";
+//        response->body = "ok";
+//
+//        // Act
+//        sut->listenFor(oldRequest).respondWith(response);
+//        sut->startListening();
+//        sut->listenFor(newRequest);
+//
+//        // Assert
+//        sendRequest(oldRequest->method, oldRequest->completeUri(), [=](const web::http::http_response& actualResponse) {
+//            REQUIRE(response->statusCode == actualResponse.status_code());
+//            REQUIRE(response->contentType == actualResponse.headers().content_type());
+//            REQUIRE(response->body == actualResponse.extract_string().get());
+//        });
+//
+//        sendRequest(newRequest->method, newRequest->completeUri(), [=](const web::http::http_response& actualResponse) {
+//            REQUIRE(web::http::status_codes::NotFound == actualResponse.status_code());
+//        });
+//    }
+//
+//    SECTION("startListening throws InvalidRequestException when trying to start with an invalid request")
+//    {
+//        // Arrange
+//        const auto& request = std::make_shared<Request>();
+//        const auto& response = std::make_shared<Response>();
+//
+//        response->statusCode = 200;
+//        response->contentType = "text/plain";
+//        response->body = "Hello world";
+//
+//        // Act
+//        sut->listenFor(request).respondWith(response);
+//
+//        // Assert
+//        REQUIRE_THROWS_AS(sut->startListening(), exception::InvalidRequestException);
+//    }
+//
+//    SECTION("startListening throws InvalidResponseException when trying to start with an invalid response")
+//    {
+//        // Arrange
+//        const auto& request = std::make_shared<Request>();
+//        const auto& response = std::make_shared<Response>();
+//
+//        request->method = "GET";
+//        request->baseUri = "http://127.0.0.1:5000";
+//        request->resource = "/";
+//
+//        // Act
+//        sut->listenFor(request).respondWith(response);
+//
+//        // Assert
+//        REQUIRE_THROWS_AS(sut->startListening(), exception::InvalidResponseException);
+//    }
+//
+//    SECTION("startListening throws UnableToStartConnectionException on the second listener when trying to start twice on the same resource")
+//    {
+//        // Arrange
+//        const auto& request = std::make_shared<Request>();
+//        const auto& response = std::make_shared<Response>();
+//        const auto& secondListener = std::make_unique<CppRestRequestListener>(mockedLogger);
+//
+//        request->method = "GET";
+//        request->baseUri = baseUri;
+//        request->resource = "/";
+//
+//        response->statusCode = 200;
+//        response->contentType = "text/plain";
+//        response->body = "Hello world";
+//
+//        sut->listenFor(request).respondWith(response);
+//        secondListener->listenFor(request).respondWith(response);
+//
+//        // Act
+//        sut->startListening();
+//
+//        REQUIRE_THROWS_AS(secondListener->startListening(), exception::UnableToStartConnectionException);
+//    }
+//
+//    SECTION("stopListening throws UnableToCloseConnectionException when the listener could not be closed")
+//    {
+//        // Arrange
+//        const auto& request = std::make_shared<Request>();
+//        const auto& secondRequest = std::make_shared<Request>();
+//        const auto& response = std::make_shared<Response>();
+//        const auto& secondListener = std::make_unique<CppRestRequestListener>(mockedLogger);
+//
+//        request->method = "GET";
+//        request->baseUri = baseUri;
+//        request->resource = "/";
+//
+//        secondRequest->method = "POST";
+//        secondRequest->baseUri = baseUri;
+//        secondRequest->resource = "/";
+//
+//        response->statusCode = 200;
+//        response->contentType = "text/plain";
+//        response->body = "Hello world";
+//
+//        sut->listenFor(request).respondWith(response);
+//        secondListener->listenFor(secondRequest).respondWith(response);
+//
+//        // Act
+//        sut->startListening();
+//
+//        REQUIRE_THROWS_AS(secondListener->startListening(), exception::UnableToStartConnectionException);
+//        REQUIRE_THROWS_AS(sut->stopListening(), exception::UnableToCloseConnectionException);
+//    }
+
+    SECTION("startListening on first listener keeps listening when the second listener failed")
     {
         // Arrange
         const auto& request = std::make_shared<Request>();
+        const auto& secondRequest = std::make_shared<Request>();
         const auto& response = std::make_shared<Response>();
+        const auto& secondListener = std::make_unique<CppRestRequestListener>(mockedLogger);
 
         request->method = "GET";
         request->baseUri = baseUri;
         request->resource = "/";
 
-        response->statusCode = 200;
-        response->contentType = "text/plain";
-
-        // Act
-        sut->listenFor(request).respondWith(response);
-        sut->startListening();
-
-        // Assert
-        CHECK_THROWS_AS(sut->startListening(), exception::ListenerAlreadyStartedException);
-    }
-
-    SECTION("stopListening throws ListenerAlreadyStoppedException when called twice")
-    {
-        // Arrange
-        const auto& request = std::make_shared<Request>();
-        const auto& response = std::make_shared<Response>();
-
-        request->method = "GET";
-        request->baseUri = baseUri;
-        request->resource = "/";
-
-        response->statusCode = 200;
-        response->contentType = "text/plain";
-
-        // Act
-        sut->listenFor(request).respondWith(response);
-        sut->startListening();
-        sut->stopListening();
-
-        // Assert
-        CHECK_THROWS_AS(sut->stopListening(), exception::ListenerAlreadyClosedException);
-    }
-
-    SECTION("startListening returns the response for the exact resource")
-    {
-        // Arrange
-        const auto& request = std::make_shared<Request>();
-        const auto& response = std::make_shared<Response>();
-
-        request->method = "GET";
-        request->baseUri = baseUri;
-        request->resource = "/test";
-
-        response->statusCode = 201;
-        response->contentType = "text/plain";
-        response->body = "created";
-
-        sut->listenFor(request).respondWith(response);
-        sut->startListening();
-
-        // Act & Assert
-        sendRequest(request->method, request->completeUri(), [=](const web::http::http_response& actualResponse) {
-            REQUIRE(response->body == actualResponse.extract_string().get());
-            REQUIRE(response->contentType == actualResponse.headers().content_type());
-            REQUIRE(response->statusCode == actualResponse.status_code());
-        });
-    }
-
-    SECTION("startListening returns 404 for a non-existing resource")
-    {
-        // Arrange
-        const auto& request = std::make_shared<Request>();
-        const auto& response = std::make_shared<Response>();
-
-        request->method = "GET";
-        request->baseUri = baseUri;
-        request->resource = "/test";
-
-        response->statusCode = 201;
-        response->contentType = "text/plain";
-        response->body = "created";
-
-        sut->listenFor(request).respondWith(response);
-
-        // Act
-        sut->startListening();
-
-        // Assert
-        sendRequest(request->method, request->baseUri + "/non-existing", [=](const web::http::http_response& actualResponse) {
-            REQUIRE(web::http::status_codes::NotFound == actualResponse.status_code());
-        });
-    }
-
-    SECTION("startListening does not respond to updated request without restart")
-    {
-        // Arrange
-        const auto& oldRequest = std::make_shared<Request>();
-        const auto& newRequest = std::make_shared<Request>();
-        const auto& response = std::make_shared<Response>();
-
-        oldRequest->method = "GET";
-        oldRequest->baseUri = baseUri;
-        oldRequest->resource = "/old";
-
-        newRequest->method = "POST";
-        newRequest->baseUri = baseUri;
-        newRequest->resource = "/new";
-
-        response->statusCode = 200;
-        response->contentType = "text/plain";
-        response->body = "ok";
-
-        // Act
-        sut->listenFor(oldRequest).respondWith(response);
-        sut->startListening();
-        sut->listenFor(newRequest);
-
-        // Assert
-        sendRequest(oldRequest->method, oldRequest->completeUri(), [=](const web::http::http_response& actualResponse) {
-            REQUIRE(response->statusCode == actualResponse.status_code());
-            REQUIRE(response->contentType == actualResponse.headers().content_type());
-            REQUIRE(response->body == actualResponse.extract_string().get());
-        });
-
-        sendRequest(newRequest->method, newRequest->completeUri(), [=](const web::http::http_response& actualResponse) {
-            REQUIRE(web::http::status_codes::NotFound == actualResponse.status_code());
-        });
-    }
-
-    SECTION("startListening throws InvalidRequestException when trying to start with an invalid request")
-    {
-        // Arrange
-        const auto& request = std::make_shared<Request>();
-        const auto& response = std::make_shared<Response>();
+        secondRequest->method = "POST";
+        secondRequest->baseUri = baseUri;
+        secondRequest->resource = "/";
 
         response->statusCode = 200;
         response->contentType = "text/plain";
         response->body = "Hello world";
 
-        // Act
         sut->listenFor(request).respondWith(response);
-
-        // Assert
-        REQUIRE_THROWS_AS(sut->startListening(), exception::InvalidRequestException);
-    }
-
-    SECTION("startListening throws InvalidResponseException when trying to start with an invalid response")
-    {
-        // Arrange
-        const auto& request = std::make_shared<Request>();
-        const auto& response = std::make_shared<Response>();
-
-        request->method = "GET";
-        request->baseUri = "http://127.0.0.1:5000";
-        request->resource = "/";
+        secondListener->listenFor(secondRequest).respondWith(response);
 
         // Act
-        sut->listenFor(request).respondWith(response);
+        sut->startListening();
 
-        // Assert
-        REQUIRE_THROWS_AS(sut->startListening(), exception::InvalidResponseException);
-    }
+        REQUIRE_THROWS_AS(secondListener->startListening(), exception::UnableToStartConnectionException);
 
-    SECTION("startListening throws ... when trying to start with an empty response")
-    {
-
-    }
-
-    SECTION("startListening throws ... when trying to start twice on the same resource")
-    {
-
+        sendRequest(request->method, request->completeUri(), [=](const web::http::http_response& actualResponse) {
+            REQUIRE(response->statusCode == actualResponse.status_code());
+            REQUIRE(response->contentType == actualResponse.headers().content_type());
+            REQUIRE(response->body == actualResponse.extract_string().get());
+        });
     }
 }

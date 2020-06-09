@@ -66,7 +66,11 @@ void MainWindow::startListening()
         const auto& widget = ui->tabListeners->widget(i);
         const auto& listener = dynamic_cast<widget::RequestListenerWidget*>(widget);
 
-        listener->startListening(method, uri);
+        try {
+            listener->startListening(method, uri);
+        } catch(std::exception& ex) {
+            QMessageBox::critical(this, "An error occurred", ex.what());
+        }
     }
 
     this->resetButtons();
@@ -78,7 +82,11 @@ void MainWindow::stopListening()
         const auto& widget = ui->tabListeners->widget(i);
         const auto& listener = dynamic_cast<widget::RequestListenerWidget*>(widget);
 
-        listener->stopListening();
+        try {
+            listener->stopListening();
+        } catch(std::exception& ex) {
+            QMessageBox::critical(this, "An error occurred", ex.what());
+        }
     }
 
     this->resetButtons();

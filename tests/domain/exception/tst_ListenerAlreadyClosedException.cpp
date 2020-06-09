@@ -2,8 +2,6 @@
 
 #include "domain/exception/ListenerAlreadyClosedException.hpp"
 
-#include <iostream>
-
 using namespace backing::domain;
 
 TEST_CASE("ListenerAlreadyClosedException")
