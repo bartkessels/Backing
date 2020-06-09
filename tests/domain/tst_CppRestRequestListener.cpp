@@ -47,6 +47,9 @@ TEST_CASE("CppRestRequestListener")
         request->baseUri = baseUri;
         request->resource = "/";
 
+        response->statusCode = 200;
+        response->contentType = "text/plain";
+
         // Act
         sut->listenFor(request).respondWith(response);
         sut->startListening();
@@ -55,7 +58,7 @@ TEST_CASE("CppRestRequestListener")
         CHECK_THROWS_AS(sut->startListening(), exception::ListenerAlreadyStartedException);
     }
 
-    SECTION("stopListening throws ListenerAlreadyStoppendException when called twice")
+    SECTION("stopListening throws ListenerAlreadyStoppedException when called twice")
     {
         // Arrange
         const auto& request = std::make_shared<Request>();
@@ -64,6 +67,9 @@ TEST_CASE("CppRestRequestListener")
         request->method = "GET";
         request->baseUri = baseUri;
         request->resource = "/";
+
+        response->statusCode = 200;
+        response->contentType = "text/plain";
 
         // Act
         sut->listenFor(request).respondWith(response);
