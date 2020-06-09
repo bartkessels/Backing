@@ -10,5 +10,12 @@ namespace backing::domain
         int statusCode;
         std::string contentType;
         std::string body;
+
+        [[nodiscard]] bool validate() const {
+            return (
+              statusCode > 0 &&
+              !contentType.empty()
+            );
+        }
     };
 }
