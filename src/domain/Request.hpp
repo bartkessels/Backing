@@ -1,5 +1,6 @@
 #pragma once
 
+#include <regex>
 #include <string>
 
 namespace backing::domain
@@ -11,8 +12,20 @@ namespace backing::domain
         std::string baseUri;
         std::string resource;
 
-        std::string completeUri() const {
+        [[nodiscard]] std::string completeUri() const {
             return baseUri + resource;
+        }
+
+        [[nodiscard]] bool validate() const {
+            return (
+                !method.empty() &&
+                validateUri()
+            );
+        }
+
+    private:
+        [[nodiscard]] bool validateUri() const {
+            return std::regex_match(completeUri(), std::regex("^(?:http://)?([^/]+)(?:/?.*/?)/(.*)$"));
         }
     };
 }
