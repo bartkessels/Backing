@@ -18,9 +18,9 @@ CppRestRequestListener::~CppRestRequestListener()
 
 void CppRestRequestListener::startListening()
 {
-    if (listener != nullptr) {
-        throw exception::ListenerAlreadyStartedException(request->method, request->resource);
-    }
+    if (!response->validate()) throw exception::InvalidResponseException();
+    if (!request->validate()) throw exception::InvalidRequestException();
+    if (listener != nullptr) throw exception::ListenerAlreadyStartedException(request->method, request->resource);
 
     listener = new http_listener(request->completeUri());
     listener->support(request->method, [=](const web::http::http_request& request) {

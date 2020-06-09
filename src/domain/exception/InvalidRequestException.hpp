@@ -5,11 +5,11 @@
 
 namespace backing::domain::exception
 {
-    struct ListenerAlreadyClosedException: public std::exception
+    struct InvalidRequestException: public std::exception
     {
     public:
-        explicit ListenerAlreadyClosedException(const std::string& method, const std::string& uri):
-                message("Listener on " + uri + " already closed for " + method) {}
+        explicit InvalidRequestException():
+                message("The request contains one or more invalid fields") {}
 
         [[nodiscard]] const char* what() const noexcept override {
             return message.c_str();

@@ -23,6 +23,8 @@ set(SOURCEFILES
 )
 
 set(HEADERFILES
+        domain/exception/InvalidRequestException.hpp
+        domain/exception/InvalidResponseException.hpp
         domain/exception/ListenerAlreadyClosedException.hpp
         domain/exception/ListenerAlreadyStartedException.hpp
         domain/CppRestRequestListener.hpp

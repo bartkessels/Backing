@@ -159,4 +159,48 @@ TEST_CASE("CppRestRequestListener")
             REQUIRE(web::http::status_codes::NotFound == actualResponse.status_code());
         });
     }
+
+    SECTION("startListening throws InvalidRequestException when trying to start with an invalid request")
+    {
+        // Arrange
+        const auto& request = std::make_shared<Request>();
+        const auto& response = std::make_shared<Response>();
+
+        response->statusCode = 200;
+        response->contentType = "text/plain";
+        response->body = "Hello world";
+
+        // Act
+        sut->listenFor(request).respondWith(response);
+
+        // Assert
+        REQUIRE_THROWS_AS(sut->startListening(), exception::InvalidRequestException);
+    }
+
+    SECTION("startListening throws InvalidResponseException when trying to start with an invalid response")
+    {
+        // Arrange
+        const auto& request = std::make_shared<Request>();
+        const auto& response = std::make_shared<Response>();
+
+        request->method = "GET";
+        request->baseUri = "http://127.0.0.1:5000";
+        request->resource = "/";
+
+        // Act
+        sut->listenFor(request).respondWith(response);
+
+        // Assert
+        REQUIRE_THROWS_AS(sut->startListening(), exception::InvalidResponseException);
+    }
+
+    SECTION("startListening throws ... when trying to start with an empty response")
+    {
+
+    }
+
+    SECTION("startListening throws ... when trying to start twice on the same resource")
+    {
+
+    }
 }

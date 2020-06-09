@@ -7,6 +7,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
 find_package(Boost COMPONENTS thread system chrono REQUIRED)
 
 set(SRCFILES
+        ../src/domain/exception/InvalidRequestException.hpp
+        ../src/domain/exception/InvalidResponseException.hpp
         ../src/domain/exception/ListenerAlreadyClosedException.hpp
         ../src/domain/exception/ListenerAlreadyStartedException.hpp
         ../src/domain/CppRestRequestListener.cpp
@@ -21,6 +23,7 @@ set(TST_SRCFILES
         domain/exception/tst_ListenerAlreadyStartedException.cpp
         domain/tst_CppRestRequestListener.cpp
         domain/tst_Request.cpp
+        domain/tst_Response.cpp
 
         main.cpp
 )

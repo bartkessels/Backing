@@ -3,6 +3,8 @@
 #include <cpprest/http_listener.h>
 #include <memory>
 
+#include "domain/exception/InvalidRequestException.hpp"
+#include "domain/exception/InvalidResponseException.hpp"
 #include "domain/exception/ListenerAlreadyClosedException.hpp"
 #include "domain/exception/ListenerAlreadyStartedException.hpp"
 #include "domain/Logger.hpp"
