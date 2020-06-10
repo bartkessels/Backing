@@ -42,6 +42,7 @@ void MainWindow::connectSignals()
                 auto widget = new widget::MethodWidget(listener, method, ui->tabListeners);
 
                 ui->tabListeners->addTab(widget, method.c_str());
+                ui->textNewMethod->clear();
             });
 
     connect(ui->tabListeners, &QTabWidget::tabCloseRequested,
