@@ -9,7 +9,7 @@ Application to mock your back-end for front-end testing
 
 ## Table of contents
 
-- [1. Screemshots](#1-screenshots)
+- [1. Screenshots](#1-screenshots)
 - [2. Features](#2-features)
 - [3. Roadmap](#3-roadmap)
 - [4. Required packages](#4-required-packages)
@@ -24,10 +24,8 @@ Application to mock your back-end for front-end testing
 
 ## 2. Features
 
-Simply setup a base uri with a specific port and add multiple listeners.
-Each listener can be configured to use a specific resource, return
-any status code. And of course return a body with your own Content-Type
-header.
+Simply setup a uri and you're able to mock multiple HTTP methods. For each
+mocked method you're able to set the status code, headers and ofcourse the body.
 
 All requests will be logged to the output at the bottom of the screen
 so you can easily detect if your front-end is sending data to the expected
@@ -35,20 +33,11 @@ back-end.
 
 ## 3. Roadmap
 
-Right now Backing is an early stage of development so some bugs are
-expected, most notably error handling when the request listeners are
-started and/or stopped.
+Unfortunately not all the features we'd like are implemented just yet. Som of the features
+we'd like to implement in foreseeable future are:
 
-The first things we'll add is error handling for the following cases:
-
-- Trying to start the listener with an empty uri
-- Trying to start multiple listeners on the same resource
-    - (We'll try to allow it for multiple methods on the same resource)
-
-Some other things we'd like to see different is the GUI, right now
-it's just functional but not very pleasing to the eyes, so if you have
-any ideas on how to make it look better please open a pull request or
-an issue.
+- Saving the mocks
+- Opening the mocks 
 
 There are some things we want get up and running to make life easier for the developers of Backing, mostly for distributing the application.
 
