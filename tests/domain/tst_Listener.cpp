@@ -106,10 +106,9 @@ TEST_CASE("register adds the method to the map")
     // Arrange
     const bool startListenerResult = true;
     const auto& method = "GET";
-    const auto& statusCode = 201;
     const auto& response = std::make_shared<Response>();
 
-    response->statusCode = statusCode;
+    response->statusCode = 201;
 
     const auto& sut = std::make_unique<MockListener>(startListenerResult);
 
@@ -120,7 +119,7 @@ TEST_CASE("register adds the method to the map")
     const auto& it = sut->getMethods().find(method);
 
     REQUIRE(it->first == method);
-    REQUIRE(it->second->statusCode == statusCode);
+    REQUIRE(it->second->statusCode == response->statusCode);
 }
 
 TEST_CASE("register overwrites a method with the second given method")
@@ -128,13 +127,11 @@ TEST_CASE("register overwrites a method with the second given method")
     // Arrange
     const bool startListenerResult = true;
     const auto& method = "GET";
-    const auto& firstStatusCode = 201;
-    const auto& secondStatusCode = 500;
     const auto& firstResponse = std::make_shared<Response>();
     const auto& secondResponse = std::make_shared<Response>();
 
-    firstResponse->statusCode = firstStatusCode;
-    secondResponse->statusCode = secondStatusCode;
+    firstResponse->statusCode = 201;
+    secondResponse->statusCode = 500;
 
     const auto& sut = std::make_unique<MockListener>(startListenerResult);
 
@@ -145,7 +142,7 @@ TEST_CASE("register overwrites a method with the second given method")
     // Assert
     const auto& it = sut->getMethods().find(method);
 
-    REQUIRE(it->second->statusCode == secondStatusCode);
+    REQUIRE(it->second->statusCode == secondResponse->statusCode);
 }
 
 TEST_CASE("unregister removes the method")
@@ -186,10 +183,9 @@ TEST_CASE("getResponse returns response object for the registered method")
     // Arrange
     const bool startListenerResult = true;
     const auto& method = "GET";
-    const auto& statusCode = 201;
     const auto& response = std::make_shared<Response>();
 
-    response->statusCode = statusCode;
+    response->statusCode = 201;
 
     const auto& sut = std::make_unique<MockListener>(startListenerResult);
 
@@ -199,7 +195,7 @@ TEST_CASE("getResponse returns response object for the registered method")
     const auto& result = sut->sendRequest(method);
 
     // Assert
-    REQUIRE(result->statusCode == statusCode);
+    REQUIRE(result->statusCode == response->statusCode);
 }
 
 TEST_CASE("getResponse throws MethodNotRegisteredException when trying to get the response for an unregistered method")

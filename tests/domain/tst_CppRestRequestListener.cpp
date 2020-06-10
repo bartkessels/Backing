@@ -172,9 +172,3 @@ TEST_CASE("listener keeps listening to requests after a starting, stopping and s
         REQUIRE(actualResponse.extract_string().get() == response->body);
     });
 }
-
-
-
-// listener returns method not allowed when trying to access an unregistered method
-// start returns true when listener is started
-// start returns false when the resource is already being listened on
