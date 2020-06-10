@@ -16,6 +16,11 @@ void Listener::unregisterMethod(const std::string& name)
     }
 }
 
+void Listener::setLogger(const std::shared_ptr<Logger>& logger)
+{
+    this->logger = logger;
+}
+
 void Listener::start(const std::string& uri)
 {
     if (!validateUri(uri)) throw exception::InvalidUriException(uri);
@@ -41,6 +46,13 @@ std::shared_ptr<Response> Listener::getResponse(const std::string& method)
     }
 
     return it->second;
+}
+
+void Listener::log(const std::string& message)
+{
+    if (logger != nullptr) {
+        logger->log(message);
+    }
 }
 
 bool Listener::validateUri(const std::string& uri)

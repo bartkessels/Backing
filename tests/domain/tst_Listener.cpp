@@ -8,8 +8,19 @@
 #include "domain/exception/ListenerNotStartedException.hpp"
 #include "domain/Listener.hpp"
 #include "domain/Response.hpp"
+#include "domain/Logger.hpp"
 
 using namespace backing::domain;
+
+class MockLogger: public Logger
+{
+public:
+    std::string logMessage;
+
+    void log(std::string message) override {
+        this->logMessage = message;
+    }
+};
 
 class MockListener: public Listener
 {
@@ -19,6 +30,7 @@ public:
 
     std::shared_ptr<Response> sendRequest(const std::string& method) { return getResponse(method); }
     std::map<std::string, std::shared_ptr<Response>> getMethods() { return methods; }
+    void writeToLogger(const std::string& message) { log(message); }
 
 protected:
     bool startListener(const std::string& uri) override { return startListenerResult; }
@@ -38,6 +50,18 @@ TEST_CASE("start throws InvalidUriException for invalid uri")
 
     // Act & Assert
     REQUIRE_THROWS_AS(sut->start(invalidUri), exception::InvalidUriException);
+}
+
+TEST_CASE("start continues with a valid uri")
+{
+    // Arrange
+    const bool startListenerResult = true;
+
+    const auto& validUri = "http://localhost:5000";
+    const auto& sut = std::make_unique<MockListener>(startListenerResult);
+
+    // Act & Assert
+    REQUIRE_NOTHROW(sut->start(validUri));
 }
 
 TEST_CASE("start throws ListenerAlreadyStartedException when the listener is already started")
@@ -189,4 +213,34 @@ TEST_CASE("getResponse throws MethodNotRegisteredException when trying to get th
 
     // Act & Assert
     REQUIRE_THROWS_AS(sut->sendRequest(method), exception::MethodNotRegisteredException);
+}
+
+TEST_CASE("log sends the message to the logger when one is set")
+{
+    // Arrange
+    const bool startListenerResult = true;
+    const auto& mockedLogger = std::make_shared<MockLogger>();
+    const auto& logMessage = "This is my log";
+
+    const auto& sut = std::make_unique<MockListener>(startListenerResult);
+
+    // Act
+    sut->setLogger(mockedLogger);
+    sut->writeToLogger(logMessage);
+
+    // Arrange
+    REQUIRE(mockedLogger->logMessage == logMessage);
+}
+
+TEST_CASE("log does nothing when no logger is set")
+{
+    // Arrange
+    const bool startListenerResult = true;
+    const auto& mockedLogger = std::make_shared<MockLogger>();
+    const auto& logMessage = "This is my log";
+
+    const auto& sut = std::make_unique<MockListener>(startListenerResult);
+
+    // Act & Assert
+    REQUIRE_NOTHROW(sut->writeToLogger(logMessage));
 }

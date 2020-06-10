@@ -14,6 +14,7 @@ set(SRCFILES
         ../src/domain/Listener.cpp
         ../src/domain/ListenerFactory.cpp
         ../src/domain/Response.hpp
+        ../src/domain/Logger.hpp
 )
 
 set(TST_SRCFILES
@@ -24,8 +25,6 @@ set(TST_SRCFILES
         domain/tst_Listener.cpp
         domain/tst_ListenerFactory.cpp
         domain/tst_Response.cpp
-
-        mocks/MockLogger.hpp
 
         main.cpp
 )
