@@ -19,7 +19,7 @@ int main(int argc, char** argv)
     QApplication::setApplicationDisplayName(appName);
     QApplication::setApplicationName(appName);
 
-    backing::gui::MainWindow window(loggingWidget.get(), listener);
+    backing::gui::MainWindow window(loggingWidget, listener);
     window.show();
 
     return QApplication::exec();
