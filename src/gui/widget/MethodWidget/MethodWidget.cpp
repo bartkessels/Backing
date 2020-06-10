@@ -13,6 +13,7 @@ MethodWidget::MethodWidget(std::shared_ptr<domain::Listener> listener, std::stri
     this->connectSignals();
 
     this->ui->textStatusCode->setValidator(new QIntValidator());
+    this->ui->btnUpdate->click();
 }
 
 MethodWidget::~MethodWidget()
