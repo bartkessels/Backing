@@ -4,15 +4,15 @@ using namespace backing::domain;
 
 void Listener::registerMethod(const std::string& name, const std::shared_ptr<Response>& response)
 {
-    this->methods.insert_or_assign(name, response);
+    methods.insert_or_assign(name, response);
 }
 
 void Listener::unregisterMethod(const std::string& name)
 {
-    const auto& it = this->methods.find(name);
+    const auto& it = methods.find(name);
 
-    if (it != this->methods.end()) {
-        this->methods.erase(it);
+    if (it != methods.end()) {
+        methods.erase(it);
     }
 }
 
@@ -39,9 +39,9 @@ void Listener::stop()
 
 std::shared_ptr<Response> Listener::getResponse(const std::string& method)
 {
-    const auto& it = this->methods.find(method);
+    const auto& it = methods.find(method);
 
-    if (it == this->methods.end()) {
+    if (it == methods.end()) {
         throw exception::MethodNotRegisteredException(method);
     }
 

@@ -6,6 +6,8 @@ bool CppRestRequestListener::startListener(const std::string &uri)
 {
     listener = std::make_unique<http_listener>(uri);
     listener->support([=](const web::http::http_request& request) {
+        this->log(request.method() + " request received on " + request.request_uri().resource().to_string());
+
         try {
             std::shared_ptr<Response> response = getResponse(request.method());
             web::http::http_response httpResponse(response->statusCode);

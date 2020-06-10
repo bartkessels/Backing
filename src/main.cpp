@@ -15,6 +15,8 @@ int main(int argc, char** argv)
     const auto& listenerFactory = std::make_shared<backing::domain::ListenerFactory>(loggingWidget);
     const auto& listener = listenerFactory->getListener();
 
+    listener->setLogger(loggingWidget);
+
     QApplication::setWindowIcon(QIcon(":/icons/main"));
     QApplication::setApplicationDisplayName(appName);
     QApplication::setApplicationName(appName);
