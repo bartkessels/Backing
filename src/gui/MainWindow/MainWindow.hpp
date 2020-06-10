@@ -7,9 +7,9 @@
 #include <QPushButton>
 #include <QTabWidget>
 
-#include "domain/RequestListenerFactory.hpp"
+#include "domain/Listener.hpp"
 #include "gui/widget/LoggingWidget/LoggingWidget.hpp"
-#include "gui/widget/RequestListenerWidget/RequestListenerWidget.hpp"
+#include "gui/widget/MethodWidget/MethodWidget.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,21 +22,18 @@ namespace backing::gui
         Q_OBJECT
 
     public:
-        explicit MainWindow(const std::shared_ptr<widget::LoggingWidget>& logginWidget, const std::shared_ptr<domain::RequestListenerFactory>& factory, QWidget* parent = nullptr);
+        explicit MainWindow(const std::shared_ptr<widget::LoggingWidget>& loggingWidget, const std::shared_ptr<domain::Listener>& listener, QWidget* parent = nullptr);
         ~MainWindow() override;
 
     private:
         void connectSignals();
 
         Ui::MainWindow* ui;
-        const std::shared_ptr<domain::RequestListenerFactory>& listenerFactory;
+
+        const std::shared_ptr<domain::Listener>& listener;
         const std::shared_ptr<widget::LoggingWidget>& loggingWidget;
 
     private slots:
-        void setupDefaultTabs();
-        void addNewTab(const std::string& method);
-        void startListening();
-        void stopListening();
         void resetButtons();
     };
 }

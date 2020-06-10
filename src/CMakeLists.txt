@@ -12,33 +12,30 @@ set(CMAKE_CXX_STANDARD 20)
 
 set(SOURCEFILES
         domain/CppRestRequestListener.cpp
-        domain/RequestListener.cpp
-        domain/RequestListenerFactory.cpp
+        domain/Listener.cpp
+        domain/ListenerFactory.cpp
 
         gui/MainWindow/MainWindow.cpp
         gui/widget/LoggingWidget/LoggingWidget.cpp
-        gui/widget/RequestListenerWidget/RequestListenerWidget.cpp
+        gui/widget/MethodWidget/MethodWidget.cpp
 
         main.cpp
 )
 
 set(HEADERFILES
-        domain/exception/InvalidRequestException.hpp
-        domain/exception/InvalidResponseException.hpp
-        domain/exception/ListenerAlreadyClosedException.hpp
+        domain/exception/InvalidUriException.hpp
         domain/exception/ListenerAlreadyStartedException.hpp
-        domain/exception/UnableToCloseConnectionException.hpp
-        domain/exception/UnableToStartConnectionException.hpp
+        domain/exception/ListenerNotStartedException.hpp
+        domain/exception/MethodNotRegisteredException.hpp
         domain/CppRestRequestListener.hpp
+        domain/Listener.hpp
+        domain/ListenerFactory.hpp
         domain/Logger.hpp
-        domain/Request.hpp
-        domain/RequestListener.hpp
-        domain/RequestListenerFactory.hpp
         domain/Response.hpp
 
         gui/MainWindow/MainWindow.hpp
         gui/widget/LoggingWidget/LoggingWidget.hpp
-        gui/widget/RequestListenerWidget/RequestListenerWidget.hpp
+        gui/widget/MethodWidget/MethodWidget.hpp
 )
 
 add_executable(
