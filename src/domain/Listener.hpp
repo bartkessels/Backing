@@ -26,8 +26,8 @@ namespace backing::domain
         void stop();
 
     protected:
-        std::shared_ptr<Logger> logger = nullptr;
         bool listenerStarted = false;
+        std::shared_ptr<Logger> logger = nullptr;
         std::map<std::string, std::shared_ptr<Response>> methods;
 
         std::shared_ptr<Response> getResponse(const std::string& method);

@@ -219,7 +219,7 @@ TEST_CASE("log sends the message to the logger when one is set")
 {
     // Arrange
     const bool startListenerResult = true;
-    const auto& mockedLogger = std::make_shared<MockLogger>();
+    const auto& mockedLogger = new MockLogger();
     const auto& logMessage = "This is my log";
 
     const auto& sut = std::make_unique<MockListener>(startListenerResult);
@@ -236,7 +236,7 @@ TEST_CASE("log does nothing when no logger is set")
 {
     // Arrange
     const bool startListenerResult = true;
-    const auto& mockedLogger = std::make_shared<MockLogger>();
+    const auto& mockedLogger = new MockLogger();
     const auto& logMessage = "This is my log";
 
     const auto& sut = std::make_unique<MockListener>(startListenerResult);

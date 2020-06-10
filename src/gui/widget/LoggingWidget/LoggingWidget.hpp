@@ -4,7 +4,7 @@
 #include <QString>
 #include <QWidget>
 
-#include "domain/Logger.hpp"
+#include "domain/QtLogger.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class LoggingWidget; }
@@ -12,15 +12,14 @@ QT_END_NAMESPACE
 
 namespace backing::gui::widget
 {
-    class LoggingWidget: public QWidget, public domain::Logger
+    class LoggingWidget: public QWidget
     {
     public:
-        explicit LoggingWidget(QWidget* parent = nullptr);
+        explicit LoggingWidget(domain::QtLogger* logger, QWidget* parent = nullptr);
         ~LoggingWidget() override;
-
-        void log(std::string message) override;
 
     private:
         Ui::LoggingWidget* ui;
+        domain::QtLogger* logger;
     };
 }

@@ -13,12 +13,8 @@ namespace backing::domain
     class ListenerFactory
     {
     public:
-        explicit ListenerFactory(std::shared_ptr<Logger> logger);
         ~ListenerFactory() = default;
 
         std::shared_ptr<Listener> getListener();
-
-    private:
-        std::shared_ptr<Logger> logger;
     };
 }

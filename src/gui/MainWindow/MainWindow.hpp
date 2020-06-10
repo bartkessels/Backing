@@ -22,7 +22,7 @@ namespace backing::gui
         Q_OBJECT
 
     public:
-        explicit MainWindow(const std::shared_ptr<widget::LoggingWidget>& loggingWidget, const std::shared_ptr<domain::Listener>& listener, QWidget* parent = nullptr);
+        explicit MainWindow(widget::LoggingWidget* loggingWidget, const std::shared_ptr<domain::Listener>& listener, QWidget* parent = nullptr);
         ~MainWindow() override;
 
     private:
@@ -31,7 +31,6 @@ namespace backing::gui
         Ui::MainWindow* ui;
 
         const std::shared_ptr<domain::Listener>& listener;
-        const std::shared_ptr<widget::LoggingWidget>& loggingWidget;
 
     private slots:
         void resetButtons();

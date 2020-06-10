@@ -14,6 +14,7 @@ set(SOURCEFILES
         domain/CppRestRequestListener.cpp
         domain/Listener.cpp
         domain/ListenerFactory.cpp
+        domain/QtLogger.cpp
 
         gui/MainWindow/MainWindow.cpp
         gui/widget/LoggingWidget/LoggingWidget.cpp
@@ -32,6 +33,7 @@ set(HEADERFILES
         domain/ListenerFactory.hpp
         domain/Logger.hpp
         domain/Response.hpp
+        domain/QtLogger.hpp
 
         gui/MainWindow/MainWindow.hpp
         gui/widget/LoggingWidget/LoggingWidget.hpp

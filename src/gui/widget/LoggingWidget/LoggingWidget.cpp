@@ -3,19 +3,20 @@
 
 using namespace backing::gui::widget;
 
-LoggingWidget::LoggingWidget(QWidget* parent):
+LoggingWidget::LoggingWidget(domain::QtLogger* logger, QWidget* parent):
     QWidget(parent),
-    ui(new Ui::LoggingWidget)
+    ui(new Ui::LoggingWidget),
+    logger(logger)
 {
     ui->setupUi(this);
+
+    connect(logger, &domain::QtLogger::writeLogToGui,
+            this, [=](const QString& message) {
+                ui->listLogs->addItem(message);
+            });
 }
 
 LoggingWidget::~LoggingWidget()
 {
     delete ui;
-}
-
-void LoggingWidget::log(std::string message)
-{
-    ui->listLogs->addItem(message.c_str());
 }

@@ -3,16 +3,15 @@
 
 using namespace backing::gui;
 
-MainWindow::MainWindow(const std::shared_ptr<widget::LoggingWidget>& loggingWidget, const std::shared_ptr<domain::Listener>& listener, QWidget* parent):
+MainWindow::MainWindow(widget::LoggingWidget* loggingWidget, const std::shared_ptr<domain::Listener>& listener, QWidget* parent):
     QMainWindow(parent),
     listener(listener),
-    loggingWidget(loggingWidget),
     ui(new Ui::MainWindow())
 {
     ui->setupUi(this);
     this->connectSignals();
 
-    this->ui->loggingWidget->addWidget(loggingWidget.get());
+    this->ui->loggingWidget->addWidget(loggingWidget);
 }
 
 MainWindow::~MainWindow()
