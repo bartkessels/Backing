@@ -150,6 +150,9 @@
    </item>
    <item>
     <widget class="QPlainTextEdit" name="textBody">
+     <property name="tabStopWidth">
+      <number>20</number>
+     </property>
      <property name="placeholderText">
       <string>Response body</string>
      </property>
