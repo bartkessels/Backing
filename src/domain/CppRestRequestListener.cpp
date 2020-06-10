@@ -2,54 +2,30 @@
 
 using namespace backing::domain;
 
-CppRestRequestListener::CppRestRequestListener(const std::shared_ptr<Logger>& logger):
-    RequestListener(logger)
+bool CppRestRequestListener::startListener(const std::string &uri)
 {
+    listener = std::make_unique<http_listener>(uri);
+    listener->support([=](const web::http::http_request& request) {
+        try {
+            std::shared_ptr<Response> response = getResponse(request.method());
+            web::http::http_response httpResponse(response->statusCode);
+            httpResponse.set_body(response->body);
 
-}
+            for (const auto& [header, value]: response->headers) {
+                httpResponse.headers().add(header, value);
+            }
 
-void CppRestRequestListener::startListening()
-{
-    if (!response->validate()) throw exception::InvalidResponseException();
-    if (!request->validate()) throw exception::InvalidRequestException();
-    if (listener != nullptr) throw exception::ListenerAlreadyStartedException(request->method, request->resource);
-
-    listener = std::make_unique<http_listener>(request->completeUri());
-    listener->support(request->method, [=](const web::http::http_request& request) {
-        web::http::http_response httpResponse(response->statusCode);
-        httpResponse.headers().set_content_type(response->contentType);
-        httpResponse.set_body(response->body);
-
-        request.reply(httpResponse);
-        this->logConnection();
+            request.reply(httpResponse);
+        } catch(exception::MethodNotRegisteredException&) {
+            request.reply(web::http::status_codes::MethodNotAllowed);
+        }
     });
 
-    listener->open().then([=](const pplx::task<void>& task) {
-        try {
-            task.get();
-            this->logConnectionOpened();
-        } catch(std::exception& e) {
-            listener.reset();
-            throw exception::UnableToStartConnectionException(request->method, request->resource);
-        }
-    }).wait();
+    return listener->open().wait() == pplx::task_status::completed;
 }
 
-void CppRestRequestListener::stopListening()
+void CppRestRequestListener::stopListener()
 {
-    if (listener == nullptr) {
-        throw exception::ListenerAlreadyClosedException(request->method, request->resource);
-    }
-
-    listener->close().then([=](const pplx::task<void>& task) {
-        try {
-            task.get();
-            this->logConnectionClosed();
-        } catch(std::exception& e) {
-            listener.reset();
-            throw exception::UnableToCloseConnectionException(request->method, request->resource);
-        }
-    }).wait();
-
+    listener->close().wait();
     listener.reset();
 }

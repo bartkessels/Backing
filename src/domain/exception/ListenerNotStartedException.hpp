@@ -5,11 +5,11 @@
 
 namespace backing::domain::exception
 {
-    struct InvalidResponseException: public std::exception
+    struct ListenerNotStartedException: public std::exception
     {
     public:
-        explicit InvalidResponseException():
-                message("The response contains one or more invalid fields") {}
+        explicit ListenerNotStartedException():
+                message("Listener cannot be stopped 'cause it hasn't been started") {}
 
         [[nodiscard]] const char* what() const noexcept override {
             return message.c_str();

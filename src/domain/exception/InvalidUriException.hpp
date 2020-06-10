@@ -5,11 +5,11 @@
 
 namespace backing::domain::exception
 {
-    struct ListenerAlreadyClosedException: public std::exception
+    struct InvalidUriException: public std::exception
     {
     public:
-        explicit ListenerAlreadyClosedException(const std::string& method, const std::string& uri):
-                message("Listener on " + uri + " already closed for " + method) {}
+        explicit InvalidUriException(const std::string& uri):
+            message("The uri '" + uri + "' is not a valid uri") {}
 
         [[nodiscard]] const char* what() const noexcept override {
             return message.c_str();

@@ -9,6 +9,6 @@ namespace backing::domain
     public:
         virtual ~Logger() = default;
 
-        virtual void log(std::string message) = 0;
+        virtual void log(std::string) = 0;
     };
 }

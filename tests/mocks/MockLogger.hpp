@@ -1,13 +1,14 @@
 #pragma once
 
+#include <string>
+
 #include "domain/Logger.hpp"
 
-namespace backing::tests::mock
+namespace backing::tests::mocks
 {
     class MockLogger: public domain::Logger
     {
     public:
-        MockLogger() = default;
         ~MockLogger() override = default;
 
         void log(std::string) override {}

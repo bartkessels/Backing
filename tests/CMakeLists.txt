@@ -7,29 +7,25 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
 find_package(Boost COMPONENTS thread system chrono REQUIRED)
 
 set(SRCFILES
-        ../src/domain/exception/InvalidRequestException.hpp
-        ../src/domain/exception/InvalidResponseException.hpp
-        ../src/domain/exception/ListenerAlreadyClosedException.hpp
+        ../src/domain/exception/InvalidUriException.hpp
         ../src/domain/exception/ListenerAlreadyStartedException.hpp
-        ../src/domain/exception/UnableToCloseConnectionException.hpp
-        ../src/domain/exception/UnableToStartConnectionException.hpp
+        ../src/domain/exception/MethodNotRegisteredException.hpp
         ../src/domain/CppRestRequestListener.cpp
-        ../src/domain/RequestListener.cpp
-        ../src/domain/RequestListenerFactory.cpp
+        ../src/domain/Listener.cpp
+        ../src/domain/ListenerFactory.cpp
         ../src/domain/Response.hpp
 )
 
 set(TST_SRCFILES
-        mock/MockLogger.hpp
-
-        domain/exception/tst_ListenerAlreadyClosedException.cpp
+        domain/exception/tst_InvalidUriException.cpp
         domain/exception/tst_ListenerAlreadyStartedException.cpp
-        domain/exception/tst_UnableToCloseConnectionException.cpp
-        domain/exception/tst_UnableToStartConnectionException.cpp
+        domain/exception/tst_MethodNotRegisteredException.cpp
         domain/tst_CppRestRequestListener.cpp
-        domain/tst_Request.cpp
-        domain/tst_RequestListenerFactory.cpp
+        domain/tst_Listener.cpp
+        domain/tst_ListenerFactory.cpp
         domain/tst_Response.cpp
+
+        mocks/MockLogger.hpp
 
         main.cpp
 )

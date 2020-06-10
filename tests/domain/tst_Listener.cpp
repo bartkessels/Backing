@@ -1,0 +1,192 @@
+#include <catch2/catch.hpp>
+#include <map>
+#include <memory>
+#include <string>
+
+#include "domain/exception/InvalidUriException.hpp"
+#include "domain/exception/ListenerAlreadyStartedException.hpp"
+#include "domain/exception/ListenerNotStartedException.hpp"
+#include "domain/Listener.hpp"
+#include "domain/Response.hpp"
+
+using namespace backing::domain;
+
+class MockListener: public Listener
+{
+public:
+    explicit MockListener(const bool startListenerResult):
+        startListenerResult(startListenerResult) {}
+
+    std::shared_ptr<Response> sendRequest(const std::string& method) { return getResponse(method); }
+    std::map<std::string, std::shared_ptr<Response>> getMethods() { return methods; }
+
+protected:
+    bool startListener(const std::string& uri) override { return startListenerResult; }
+    void stopListener() override { }
+
+private:
+    bool startListenerResult;
+};
+
+TEST_CASE("start throws InvalidUriException for invalid uri")
+{
+    // Arrange
+    const bool startListenerResult = true;
+
+    const auto& invalidUri = "not-valid.uri";
+    const auto& sut = std::make_unique<MockListener>(startListenerResult);
+
+    // Act & Assert
+    REQUIRE_THROWS_AS(sut->start(invalidUri), exception::InvalidUriException);
+}
+
+TEST_CASE("start throws ListenerAlreadyStartedException when the listener is already started")
+{
+    // Arrange
+    const bool startListenerResult = true;
+    const auto& uri = "http://localhost:5000/";
+    const auto& sut = std::make_unique<MockListener>(startListenerResult);
+
+    sut->start(uri);
+
+    // Act & Assert
+    REQUIRE_THROWS_AS(sut->start(uri), exception::ListenerAlreadyStartedException);
+}
+
+TEST_CASE("stop throws ListenerNotStartedException when the listener is never started")
+{
+    // Arrange
+    const bool startListenerResult = true;
+    const auto& uri = "http://localhost:5000/";
+    const auto& sut = std::make_unique<MockListener>(startListenerResult);
+
+    // Act & Assert
+    REQUIRE_THROWS_AS(sut->stop(), exception::ListenerNotStartedException);
+}
+
+TEST_CASE("stop throws ListenerNotStartedException on the second stop call when the listener is started and then twice stopped")
+{
+    // Arrange
+    const bool startListenerResult = true;
+    const auto& uri = "http://localhost:5000/";
+    const auto& sut = std::make_unique<MockListener>(startListenerResult);
+
+    sut->start(uri);
+    sut->stop();
+
+    // Act & Assert
+    REQUIRE_THROWS_AS(sut->stop(), exception::ListenerNotStartedException);
+}
+
+TEST_CASE("register adds the method to the map")
+{
+    // Arrange
+    const bool startListenerResult = true;
+    const auto& method = "GET";
+    const auto& statusCode = 201;
+    const auto& response = std::make_shared<Response>();
+
+    response->statusCode = statusCode;
+
+    const auto& sut = std::make_unique<MockListener>(startListenerResult);
+
+    // Act
+    sut->registerMethod(method, response);
+
+    // Assert
+    const auto& it = sut->getMethods().find(method);
+
+    REQUIRE(it->first == method);
+    REQUIRE(it->second->statusCode == statusCode);
+}
+
+TEST_CASE("register overwrites a method with the second given method")
+{
+    // Arrange
+    const bool startListenerResult = true;
+    const auto& method = "GET";
+    const auto& firstStatusCode = 201;
+    const auto& secondStatusCode = 500;
+    const auto& firstResponse = std::make_shared<Response>();
+    const auto& secondResponse = std::make_shared<Response>();
+
+    firstResponse->statusCode = firstStatusCode;
+    secondResponse->statusCode = secondStatusCode;
+
+    const auto& sut = std::make_unique<MockListener>(startListenerResult);
+
+    // Act
+    sut->registerMethod(method, firstResponse);
+    sut->registerMethod(method, secondResponse);
+
+    // Assert
+    const auto& it = sut->getMethods().find(method);
+
+    REQUIRE(it->second->statusCode == secondStatusCode);
+}
+
+TEST_CASE("unregister removes the method")
+{
+    // Arrange
+    const bool startListenerResult = true;
+    const auto& method = "GET";
+    const auto& response = std::make_shared<Response>();
+
+    const auto& sut = std::make_unique<MockListener>(startListenerResult);
+
+    sut->registerMethod(method, response);
+
+    // Act
+    sut->unregisterMethod(method);
+
+    // Assert
+    REQUIRE(sut->getMethods().empty());
+}
+
+TEST_CASE("unregister does nothing when trying to remove a method that wasn't registered")
+{
+    // Arrange
+    const bool startListenerResult = true;
+    const auto& unregisteredMethod = "GET";
+
+    const auto& sut = std::make_unique<MockListener>(startListenerResult);
+
+    // Act
+    sut->unregisterMethod(unregisteredMethod);
+
+    // Assert
+    REQUIRE(sut->getMethods().empty());
+}
+
+TEST_CASE("getResponse returns response object for the registered method")
+{
+    // Arrange
+    const bool startListenerResult = true;
+    const auto& method = "GET";
+    const auto& statusCode = 201;
+    const auto& response = std::make_shared<Response>();
+
+    response->statusCode = statusCode;
+
+    const auto& sut = std::make_unique<MockListener>(startListenerResult);
+
+    sut->registerMethod(method, response);
+
+    // Act
+    const auto& result = sut->sendRequest(method);
+
+    // Assert
+    REQUIRE(result->statusCode == statusCode);
+}
+
+TEST_CASE("getResponse throws MethodNotRegisteredException when trying to get the response for an unregistered method")
+{
+    // Arrange
+    const bool startListenerResult = true;
+    const auto& method = "GET";
+
+    const auto& sut = std::make_unique<MockListener>(startListenerResult);
+
+    // Act & Assert
+    REQUIRE_THROWS_AS(sut->sendRequest(method), exception::MethodNotRegisteredException);
+}

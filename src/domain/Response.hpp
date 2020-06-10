@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <string>
 
 namespace backing::domain
@@ -8,13 +9,12 @@ namespace backing::domain
     {
     public:
         int statusCode;
-        std::string contentType;
+        std::map<std::string, std::string> headers;
         std::string body;
 
-        [[nodiscard]] bool validate() const {
+        [[nodiscard]] bool isValid() const {
             return (
-              statusCode > 0 &&
-              !contentType.empty()
+              statusCode > 0
             );
         }
     };

@@ -5,11 +5,11 @@
 
 namespace backing::domain::exception
 {
-    struct UnableToStartConnectionException: public std::exception
+    struct MethodNotRegisteredException: public std::exception
     {
     public:
-        explicit UnableToStartConnectionException(const std::string& method, const std::string& uri):
-                message("The connection for " + uri + " on " + method + " could not be started") {}
+        explicit MethodNotRegisteredException(const std::string& method):
+                message("Method '" + method + "' not registered") {}
 
         [[nodiscard]] const char* what() const noexcept override {
             return message.c_str();
