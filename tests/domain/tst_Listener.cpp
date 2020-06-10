@@ -17,7 +17,7 @@ class MockLogger: public Logger
 public:
     std::string logMessage;
 
-    void log(std::string message) override {
+    void log(const std::string& message) override {
         this->logMessage = message;
     }
 };
@@ -30,7 +30,7 @@ public:
 
     std::shared_ptr<Response> sendRequest(const std::string& method) { return getResponse(method); }
     std::map<std::string, std::shared_ptr<Response>> getMethods() { return methods; }
-    void writeToLogger(const std::string& message) { log(message); }
+    void writeToLogger(const std::string& message) { this->log(message); }
 
 protected:
     bool startListener(const std::string& uri) override { return startListenerResult; }
@@ -81,7 +81,6 @@ TEST_CASE("stop throws ListenerNotStartedException when the listener is never st
 {
     // Arrange
     const bool startListenerResult = true;
-    const auto& uri = "http://localhost:5000/";
     const auto& sut = std::make_unique<MockListener>(startListenerResult);
 
     // Act & Assert

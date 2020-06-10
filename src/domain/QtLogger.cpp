@@ -8,7 +8,7 @@ QtLogger::QtLogger(QObject* parent):
 
 }
 
-void QtLogger::log(std::string message)
+void QtLogger::log(const std::string& message)
 {
     emit writeLogToGui(message.c_str());
 }

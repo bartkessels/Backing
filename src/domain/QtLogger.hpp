@@ -14,7 +14,7 @@ namespace backing::domain
     public:
         explicit QtLogger(QObject* parent = nullptr);
 
-        void log(std::string message) override;
+        void log(const std::string& message) override;
 
     signals:
         void writeLogToGui(QString);
