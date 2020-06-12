@@ -6,5 +6,5 @@ before_build:
   - cd build
 
 build_script:
-  - cmake .. -DCMAKE_PREFIX_PATH=C:\Libraries\boost_1_73_0 -DCMAKE_PREFIX_PATH=C:\OpenSSL-Win64\bin
+  - cmake .. -DCMAKE_PREFIX_PATH=C:\Libraries\boost_1_73_0;C:\OpenSSL-Win64\bin
   - nmake backing
