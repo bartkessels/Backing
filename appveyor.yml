@@ -4,9 +4,12 @@ platform:
   - x64
 
 init:
-  - set PATH=C:\Libraries\boost_1_73_0;C:\OpenSSL-Win64\bin;C:\Qt\5.14.2;C:\Program Files (x86)\CMake\bin;%PATH%
+  - set PATH=C:\Libraries\boost_1_73_0;C:\OpenSSL-Win64\bin;C:\Qt\5.14.2;%PATH%
   - set makefiles="NMake Makefiles"
   - call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
+
+install:
+  - vcpkg install --triplet x64-windows zlib openssl boost-system boost-date-time boost-regex boost-interprocess websocketpp brotli
 
 before_build:
   - mkdir build
