@@ -38,7 +38,7 @@ jobs:
         - cd build
       script: &script_linux_test
         - cmake ..
-        - make
+        - make backing backing_tests
         - ./bin/backing_tests
         - cpack
       after_success:
@@ -79,7 +79,7 @@ jobs:
         - export PATH=$MAC_QT_DIR/bin:$PATH
       script: &script_macos_test
         - cmake .. -DCMAKE_PREFIX_PATH=/usr/local/opt/qt
-        - make
+        - make backing backing_tests
         - ./bin/backing_tests
         - cpack
 
