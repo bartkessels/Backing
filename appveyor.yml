@@ -2,19 +2,41 @@ image:
   - Visual Studio 2019
 platform:
   - x64
+configuration: Release
+
+environment:
+  QT_DIR: C:\Qt\latest\msvc2017_64
+  BOOST_DIR: C:\Libraries\boost_1_73_0
 
 init:
-  - set PATH=C:\Libraries\boost_1_73_0;C:\OpenSSL-Win64\bin;C:\Qt\5.14.2;%PATH%
-  - set makefiles="NMake Makefiles"
+  - set PATH=%QT_DIR%\bin;%PATH%
   - call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
 
 install:
   - vcpkg install --triplet x64-windows zlib openssl websocketpp brotli
+  - vcpkg integrate install
 
 before_build:
   - mkdir build
   - cd build
 
 build_script:
-  - cmake .. -DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake
-  - nmake backing
+  - cmake .. -DCMAKE_PREFIX_PATH=%QT_DIR%;%BOOST_DIR%
+  - devenv HashGenerator.sln /deploy Release
+  - cpack
+  - copy Backing-*.exe %APPVEYOR_BUILD_FOLDER%\backing_win_x64.exe
+
+artifacts:
+  - path: backing_win_x64.exe
+    name: backing
+
+deploy:
+  description: 'Backing'
+  provider: GitHub
+  auth_token:
+    secure: NDr/N5HpkiZPeC2OHiDDA7Xx4QGb4WAJRr81qmZdIyX0BjLx24Cq1aIeANT5w55U
+  artifact: backing_win_x64.exe
+  draft: false
+  prerelease: false
+  on:
+    APPVEYOR_REPO_TAG: true
