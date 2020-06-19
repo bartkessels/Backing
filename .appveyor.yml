@@ -22,7 +22,7 @@ before_build:
 
 build_script:
   - cmake .. -DCMAKE_PREFIX_PATH=%QT_DIR%;%BOOST_DIR%
-  - devenv HashGenerator.sln /deploy Release
+  - devenv Backing.sln /deploy Release
   - cpack
   - copy Backing-*.exe %APPVEYOR_BUILD_FOLDER%\backing_win_x64.exe
 
