@@ -1,8 +1,11 @@
 language: cpp
 
 stages:
-  - build
-  - test
+  - build & test
+
+env:
+  - MAC_QT_DIR=/usr/local/opt/qt
+  - GITHUB_OAUTH_TOKEN=VY1USorN4aAOo0qdYlN7wOoD/S+DSliVFltkBJC2rffzHEMok8EHaN+UhtDl3oQW6ayEaDgJQkJ4qlnmiSyuZkr1ZeOzBZqUq543HhRMSrWQf/EpwNHBSPlXprFk8SKkFltzY43a6w4CQUbCnh0QSWf5p53rQFVSD3QfBI15JAogERckZ0oI1ryaFjD5AO7SBDrl7baqTL4YXrrSNCoJ3b4ZnXmjpglTosNDLsf7STwzvJw4l6PEA4SdyVhe/iKuH/PcSYs38q2hL4HOCSsaleamkIbu3KUTgwe0XwtCAo/tIfZO+21l85CmvPTcNqaJiLPBxWDwsXA38OPiHdhtsj5LgGeQptQTj7r2emlU2AFsw/j+VTRbtY7vNxzUpmYd4lEu+BpkteSKjtKdJ9uHQKoy8Vm5tzF279cb3BIGRAdwRqRK1+l2yrxCHBW+dRENekdUsy/eumb6VrjCskRdKIu+d4+YBw33QsSTND4AUWAxV1kqfnOrBey93LYBQO0OERI90dIS6m1EZfpxnt/buNUM+riTg5AcwCH3tcZSyckmY7J2Tf89va01YrxACLZTQNs3fLuLxV1OsFhIfabfNQ4XXRAd73vuWgOsqyC+u6sQywdpnyGYEJuRG4+Je272Rr0lljQWEhWO2xGKRDRehyyxxgCWuE9/su21ymHr4AQ=
 
 addons:
   apt:
@@ -21,11 +24,7 @@ addons:
 jobs:
   include:
 
-    ###############################
-    ##            TEST
-    ###############################
-
-    - stage: test
+    - stage: build & test
       os: linux
       dist: bionic
       language: cpp
@@ -39,12 +38,24 @@ jobs:
         - cd build
       script: &script_linux_test
         - cmake ..
-        - make backing_tests
+        - make
         - ./bin/backing_tests
+        - cpack
       after_success:
         - bash <(curl -s https://codecov.io/bash)
+      before_deploy:
+        - mv ./Backing-*.sh ./backing_linux_x64.sh
+      deploy:
+        provider: releases
+        token:
+          secure: $GITHUB_OAUTH_TOKEN
+        file: ./backing_linux_x64.sh
+        cleanup: false
+        skip_cleanup: true
+        on:
+          tags: true
 
-    - stage: test
+    - stage: build & test
       os: linux
       dist: bionic
       language: cpp
@@ -53,7 +64,7 @@ jobs:
       before_script: *before_script
       script: *script_linux_test
 
-    - stage: test
+    - stage: build & test
       os: osx
       osx_image: xcode11.6
       language: cpp
@@ -62,59 +73,31 @@ jobs:
         - wget https://github.com/Kitware/CMake/releases/download/v3.15.7/cmake-3.15.7-Darwin-x86_64.tar.gz
         - tar -xf cmake-3.15.7-Darwin-x86_64.tar.gz
         - export PATH=`pwd`/cmake-3.15.7-Darwin-x86_64/bin:$PATH
-      before_script: *before_script
+      before_script: &before_script_macos
+        - mkdir build
+        - cd build
+        - export PATH=$MAC_QT_DIR/bin:$PATH
       script: &script_macos_test
         - cmake .. -DCMAKE_PREFIX_PATH=/usr/local/opt/qt
-        - make backing_tests
+        - make
         - ./bin/backing_tests
+        - cpack
 
-    - stage: test
+    - stage: build & test
       os: osx
       osx_image: xcode11.6
       compiler: clang
       install: *install_macos
-      before_script: *before_script
+      before_script: *before_script_macos
       script: *script_macos_test
-
-    ###############################
-    ##            BUILD
-    ###############################
-    - stage: build
-      os: linux
-      dist: bionic
-      language: cpp
-      compiler: gcc
-      install: *install_linux
-      before_script: *before_script
-      script: &script_linux_build
-        - cmake ..
-        - make backing
-
-    - stage: build
-      os: linux
-      dist: bionic
-      language: cpp
-      compiler: clang
-      install: *install_linux
-      before_script: *before_script
-      script: *script_linux_build
-
-    - stage: build
-      os: osx
-      osx_image: xcode11.4
-      language: cpp
-      compiler: gcc
-      install: *install_macos
-      before_script: *before_script
-      script: &script_macos_build
-        - cmake .. -DCMAKE_PREFIX_PATH=/usr/local/opt/qt
-        - make backing
-
-    - stage: build
-      os: osx
-      osx_image: xcode11.4
-      language: cpp
-      compiler: clang
-      install: *install_macos
-      before_script: *before_script
-      script: *script_macos_build
+      before_deploy:
+        - mv ./backing-*.sh ./backing_macos_x64.sh
+      deploy:
+        provider: releases
+        token:
+          secure: $GITHUB_OAUTH_TOKEN
+        file: ./backing_macos_x64.sh
+        cleanup: false
+        skip_cleanup: true
+        on:
+          tags: true
