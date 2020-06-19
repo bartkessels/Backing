@@ -18,4 +18,6 @@ FetchContent_Declare(
 
         GIT_REPOSITORY https://github.com/microsoft/cpprestsdk.git
         GIT_TAG        v2.10.16)
+set(BUILD_TESTS 0)
+set(BUILD_SAMPLES 0)
 FetchContent_MakeAvailable(extern_restsdk)
