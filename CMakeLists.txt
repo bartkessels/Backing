@@ -1,9 +1,14 @@
 cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
 
+set(BINARY_NAME backing)
+set(VER_MAJOR 0)
+set(VER_MINOR 0)
+set(VER_PATCH 1)
+
 project(Backing
-  VERSION 0.0.1
-  DESCRIPTION "Application to mock your back-end for front-end testing"
-  HOMEPAGE_URL "https://github.com/bartkessels/backing"
+    VERSION ${VER_MAJOR}.${VER_MINOR}.${VER_PATCH}
+    DESCRIPTION "Application to mock your back-end for front-end testing"
+    HOMEPAGE_URL "https://github.com/bartkessels/backing"
 )
 
 # Variables
@@ -16,3 +21,6 @@ set(CMAKE_EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/build)
 add_subdirectory(third_party)
 add_subdirectory(src)
 add_subdirectory(tests)
+add_subdirectory(packaging)
+
+include(CPack)

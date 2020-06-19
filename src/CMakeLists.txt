@@ -7,6 +7,7 @@ set(CMAKE_AUTORCC ON)
 
 find_package(Qt5 COMPONENTS Widgets Core REQUIRED)
 find_package(Boost COMPONENTS system REQUIRED)
+set(LIBRARIES Boost::system cpprest Qt5::Widgets)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -41,13 +42,32 @@ set(HEADERFILES
 )
 
 add_executable(
-        backing
+        ${BINARY_NAME}
         ${HEADERFILES}
         ${SOURCEFILES}
         ../resources/resources.qrc
 )
 
+install(TARGETS ${BINARY_NAME}
+        RUNTIME
+        DESTINATION
+)
+
 # Libraries
-target_link_libraries(backing Boost::system)
-target_link_libraries(backing cpprest)
-target_link_libraries(backing Qt5::Widgets)
+target_link_libraries(${BINARY_NAME} ${LIBRARIES})
+
+if (APPLE)
+    add_custom_command(
+            TARGET ${BINARY_NAME}
+            POST_BUILD
+            COMMAND macdeployqt bin/${BINARY_NAME}.app
+            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    )
+elseif (WIN32)
+    add_custom_command(
+            TARGET ${BINARY_NAME}
+            POST_BUILD
+            COMMAND windeployqt.exe bin/Release/${BINARY_NAME}.exe
+            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    )
+endif ()

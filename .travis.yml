@@ -55,7 +55,7 @@ jobs:
 
     - stage: test
       os: osx
-      osx_image: xcode11.4
+      osx_image: xcode11.6
       language: cpp
       compiler: gcc
       install: &install_macos
@@ -70,6 +70,7 @@ jobs:
 
     - stage: test
       os: osx
+      osx_image: xcode11.6
       compiler: clang
       install: *install_macos
       before_script: *before_script

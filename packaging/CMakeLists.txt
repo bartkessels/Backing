@@ -6,29 +6,29 @@ set(CPACK_PACKAGE_VERSION_MAJOR ${VER_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${VER_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${VER_PATCH})
 set(CPACK_PACKAGE_ICON ../resources/icons/main.svg)
-set(CPACK_SOURCE_IGNORE_FILES *test)
+set(CPACK_SOURCE_IGNORE_FILES "test" "tests")
 set(CPACK_COMPONENTS_ALL_IN_ONE_PACKAGE 1)
 
 if (WIN32)
-    set(COMPLETE_BINARY_NAME Release/hashgen.exe)
+    set(COMPLETE_BINARY_NAME Release/backing.exe)
 elseif (APPLE)
     set_target_properties(${BINARY_NAME} PROPERTIES MACOSX_BUNDLE TRUE)
     set_target_properties(
         ${BINARY_NAME}
         PROPERTIES
-        RESOURCE "macos/icons/hashgen.icns"
+        RESOURCE "macos/icons/backing.icns"
     )
 
-    set(COMPLETE_BINARY_NAME hashgen.app)
+    set(COMPLETE_BINARY_NAME backing.app)
 
-    set(CPACK_BUNDLE_NAME HashGenerator)
+    set(CPACK_BUNDLE_NAME Backing)
     set(CPACK_BUNDLE_PLIST macos/Info.plist)
-    set(CPACK_BUNDLE_ICON macos/icons/hashgen.icns)
+    set(CPACK_BUNDLE_ICON macos/icons/backing.icns)
 
-    set(MACOSX_FRAMEWORK_ICON_FILE macos/icons/hashgen.icns)
-    set(MACOSX_FRAMEWORK_IDENTIFIER net.bartkessels.hashgen)
+    set(MACOSX_FRAMEWORK_ICON_FILE macos/icons/backing.icns)
+    set(MACOSX_FRAMEWORK_IDENTIFIER net.bartkessels.backing)
 elseif (UNIX AND NOT APPLE)
-    set(COMPLETE_BINARY_NAME hashgen)
+    set(COMPLETE_BINARY_NAME backing)
 endif()
 
 install(TARGETS ${APP_NAME}
