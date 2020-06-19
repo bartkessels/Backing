@@ -23,7 +23,7 @@ before_build:
 
 build_script:
   - cmake .. -DCMAKE_PREFIX_PATH=%QT_DIR%;%BOOST_DIR% -DCMAKE_TOOLCHAIN_FILE=%VCPKG_DIR%\scripts\buildsystems\vcpkg.cmake
-  - devenv Backing.sln /deploy Release
+  - devenv Backing.sln /deploy Release /Project backing
   - cpack
   - copy Backing-*.exe %APPVEYOR_BUILD_FOLDER%\backing_win_x64.exe
 
