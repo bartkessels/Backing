@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.17 FATAL_ERROR)
 
 set(CPACK_PACKAGE_NAME ${APP_NAME})
 set(CPACK_PACKAGE_VENDOR "Bart Kessels")
