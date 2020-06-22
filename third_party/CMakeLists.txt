@@ -18,8 +18,8 @@ FetchContent_Declare(
 
         GIT_REPOSITORY https://github.com/microsoft/cpprestsdk.git
         GIT_TAG        v2.10.16)
-set(cpprest_BUILD_TESTS 0)
-set(cpprest_BUILD_SAMPLES 0)
-set(BUILD_TESTS 0)
-set(BUILD_SAMPLES 0)
+set(cpprest_BUILD_TESTS OFF)
+set(cpprest_BUILD_SAMPLES OFF)
+set(BUILD_TESTS OFF)
+set(BUILD_SAMPLES OFF)
 FetchContent_MakeAvailable(cpprest)
