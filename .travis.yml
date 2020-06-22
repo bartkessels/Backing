@@ -4,9 +4,10 @@ stages:
   - build & test
 
 env:
-  - CMAKE_VERSION=3.17.3
-  - MAC_QT_DIR=/usr/local/opt/qt
-  - GITHUB_OAUTH_TOKEN=VY1USorN4aAOo0qdYlN7wOoD/S+DSliVFltkBJC2rffzHEMok8EHaN+UhtDl3oQW6ayEaDgJQkJ4qlnmiSyuZkr1ZeOzBZqUq543HhRMSrWQf/EpwNHBSPlXprFk8SKkFltzY43a6w4CQUbCnh0QSWf5p53rQFVSD3QfBI15JAogERckZ0oI1ryaFjD5AO7SBDrl7baqTL4YXrrSNCoJ3b4ZnXmjpglTosNDLsf7STwzvJw4l6PEA4SdyVhe/iKuH/PcSYs38q2hL4HOCSsaleamkIbu3KUTgwe0XwtCAo/tIfZO+21l85CmvPTcNqaJiLPBxWDwsXA38OPiHdhtsj5LgGeQptQTj7r2emlU2AFsw/j+VTRbtY7vNxzUpmYd4lEu+BpkteSKjtKdJ9uHQKoy8Vm5tzF279cb3BIGRAdwRqRK1+l2yrxCHBW+dRENekdUsy/eumb6VrjCskRdKIu+d4+YBw33QsSTND4AUWAxV1kqfnOrBey93LYBQO0OERI90dIS6m1EZfpxnt/buNUM+riTg5AcwCH3tcZSyckmY7J2Tf89va01YrxACLZTQNs3fLuLxV1OsFhIfabfNQ4XXRAd73vuWgOsqyC+u6sQywdpnyGYEJuRG4+Je272Rr0lljQWEhWO2xGKRDRehyyxxgCWuE9/su21ymHr4AQ=
+  global:
+    - CMAKE_VERSION=3.17.3
+    - MAC_QT_DIR=/usr/local/opt/qt
+    - GITHUB_OAUTH_TOKEN=VY1USorN4aAOo0qdYlN7wOoD/S+DSliVFltkBJC2rffzHEMok8EHaN+UhtDl3oQW6ayEaDgJQkJ4qlnmiSyuZkr1ZeOzBZqUq543HhRMSrWQf/EpwNHBSPlXprFk8SKkFltzY43a6w4CQUbCnh0QSWf5p53rQFVSD3QfBI15JAogERckZ0oI1ryaFjD5AO7SBDrl7baqTL4YXrrSNCoJ3b4ZnXmjpglTosNDLsf7STwzvJw4l6PEA4SdyVhe/iKuH/PcSYs38q2hL4HOCSsaleamkIbu3KUTgwe0XwtCAo/tIfZO+21l85CmvPTcNqaJiLPBxWDwsXA38OPiHdhtsj5LgGeQptQTj7r2emlU2AFsw/j+VTRbtY7vNxzUpmYd4lEu+BpkteSKjtKdJ9uHQKoy8Vm5tzF279cb3BIGRAdwRqRK1+l2yrxCHBW+dRENekdUsy/eumb6VrjCskRdKIu+d4+YBw33QsSTND4AUWAxV1kqfnOrBey93LYBQO0OERI90dIS6m1EZfpxnt/buNUM+riTg5AcwCH3tcZSyckmY7J2Tf89va01YrxACLZTQNs3fLuLxV1OsFhIfabfNQ4XXRAd73vuWgOsqyC+u6sQywdpnyGYEJuRG4+Je272Rr0lljQWEhWO2xGKRDRehyyxxgCWuE9/su21ymHr4AQ=
 
 addons:
   apt:
@@ -79,7 +80,7 @@ jobs:
         - cd build
         - export PATH=$MAC_QT_DIR/bin:$PATH
       script: &script_macos_test
-        - cmake .. -DCMAKE_PREFIX_PATH=$MAC_QT_DIR
+        - cmake .. -DCMAKE_PREFIX_PATH=/usr/local/opt/qt
         - make backing backing_tests
         - ./bin/backing_tests
         - cpack
