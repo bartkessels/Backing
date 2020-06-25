@@ -1,9 +1,15 @@
 # Backing
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Build Status](https://travis-ci.org/bartkessels/backing.svg?branch=development)](https://travis-ci.org/bartkessels/backing)
+
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f9919567041d4715889d643b784e661f)](https://www.codacy.com/manual/bartkessels/backing?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=bartkessels/backing&amp;utm_campaign=Badge_Grade)
 [![codecov](https://codecov.io/gh/bartkessels/backing/branch/development/graph/badge.svg)](https://codecov.io/gh/bartkessels/backing)
+
+<br>
+
+|MacOS / Linux|Windows|
+|---|---|
+|[![Build Status](https://travis-ci.org/bartkessels/backing.svg?branch=development)](https://travis-ci.org/bartkessels/backing)|[![Build status](https://ci.appveyor.com/api/projects/status/hh5ay5pes7g463gd?svg=true)](https://ci.appveyor.com/project/bartkessels/backing)|
 
 Application to mock your back-end for front-end testing
 
@@ -14,9 +20,13 @@ Application to mock your back-end for front-end testing
 - [3. Roadmap](#3-roadmap)
 - [4. Required packages](#4-required-packages)
 - [5. Build](#5-build)
-    - [5.1 Tests](#51-tests)
-        - [5.1.1 Test coverage](#511-test-coverage)
-    - [5.2 Application](#52-application)
+    - [5.1 MacOS](#51-macos)
+    - [5.2 Linux](#52-linux)
+    - [5.3 Windows](53-windows)
+- [6. Packaging](#6-packaging)
+    - [6.1 Macos](#61-macos)
+    - [6.2 Linux](#62-linux)
+    - [6.3 Windows](#63-windows)
 
 ## 1. Screenshots
 
@@ -61,38 +71,90 @@ The packages you need to install
 - `Boost`, these libraries are used within [CppRestSdk](https://github.com/microsoft/cpprestsdk) library
 - `CMake`, this is the build system used by Backing
 
+
 ## 5. Build
 
-Once you've installed the required packages you're ready to compile Backing or the Backing tests.
-
-### 5.1 Tests
+### 5.1 MacOS
 
 ```bash
 $ mkdir build
 $ cd build
 $ cmake ..
-$ make backing_tests
-$ ./bin/backing_tests
+$ make
 ```
 
-#### 5.1.1 Test coverage
+After these commands completed you'll get two files in the `bin` folder, one for running the tests and
+a `.app` file which you can execute to run Backing.
 
-When building the tests the required compiler flags are set to generate the coverage reports for each individual
-source file. The coverage reports can be bundled using `lcov` which will generate a `*.info` file which can be transformed
-into a `html` file using the `genhtml` command.
+Use `./bin/backing_tests` to run the tests
 
-```bash
-$ lcov --directory tests/CMakeFiles/backing_tests.dir --capture --output-file backing_coverage.info
-$ genhtml -o coverage/ backing_coverage.info
-$ open coverage/index.html
-```
+Use `open bin/backing.app` to execute the application
 
-### 5.2 Application
+### 5.2 Linux
 
 ```bash
 $ mkdir build
 $ cd build
 $ cmake ..
-$ make backing
-$ ./bin/backing
+$ make
+```
+
+After these commands completed you'll get two files in the `bin` folder, one for running the tests and
+one for executing Backing itself.
+
+Use `./bin/backing_tests` to run the tests
+
+Use `./bin/backing` to execute the application
+
+### 5.3 Windows
+
+```bat
+> cmake ..
+> devenv Backing.sln /deploy Release
+```
+
+After these commands completed you'll get two files in the `bin/Release` folder, one for running the tests and
+one for executing Backing itself.
+
+Use `bin/Release/backing_tests.exe` to run the tests
+
+Use `bin/Release/backing.exe` to execute the application
+
+## 6. Packaging
+
+To install Backing we need to create an installable package for the platform you're currently on.
+
+You can only execute these steps if you've already built the application. The working directory for all the following
+platforms is assumed to be `build`.
+
+### 6.1 Macos
+
+On MacOS we'll create a `bash` script which will install the required `backing.app` on your system. Simply execute this
+script with the `--prefix/usr` flag to install it globally.
+
+By executing the following command you'll get the `Backing-<verion_number>-Darwin.sh` file in the `build` directory.
+
+```bash
+$ cpack
+```
+
+### 6.2 Linux
+
+On MacOS we'll create a `bash` script which will install the required `backing` binary on your system. Simply execute this
+script with the `--prefix/usr` flag to install it globally.
+
+By executing the following command you'll get the `Backing-<version-number>-Linux.sh` file in the `build` directory.
+
+```bash
+$ cpack
+``` 
+
+### 6.3 Windows
+
+On Windows we'll create an executable to install Backing into the program files directory.
+
+By executing the following command you'll get the `Backing-<version_number>-Windows.exe` file in the `build` directory.
+
+```bat
+> cpack
 ```
