@@ -36,8 +36,8 @@ include_directories(../src)
 
 # Libraries
 target_link_libraries(backing_tests Boost::system)
-target_link_libraries(backing_tests cpprest)
 target_link_libraries(backing_tests Catch2::Catch2)
+target_link_libraries(backing_tests cpprest)
 
 enable_testing()
 add_test(NAME backing_tests COMMAND backing_tests)

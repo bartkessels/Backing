@@ -6,8 +6,8 @@ set(CPACK_PACKAGE_VERSION_MAJOR ${VER_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${VER_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${VER_PATCH})
 set(CPACK_PACKAGE_ICON ../resources/icons/main.svg)
-set(CPACK_SOURCE_IGNORE_FILES "test" "tests")
-set(CPACK_COMPONENTS_ALL_IN_ONE_PACKAGE 1)
+#set(CPACK_SOURCE_IGNORE_FILES "test" "tests")
+#set(CPACK_COMPONENTS_ALL_IN_ONE_PACKAGE 1)
 
 if (WIN32)
     set(COMPLETE_BINARY_NAME Release/backing.exe)
@@ -24,6 +24,7 @@ elseif (APPLE)
     set(CPACK_BUNDLE_NAME Backing)
     set(CPACK_BUNDLE_PLIST macos/Info.plist)
     set(CPACK_BUNDLE_ICON macos/icons/backing.icns)
+    set(CPACK_PRODUCTBUILD_RESOURCES_DIR macos)
 
     set(MACOSX_FRAMEWORK_ICON_FILE macos/icons/backing.icns)
     set(MACOSX_FRAMEWORK_IDENTIFIER net.bartkessels.backing)
@@ -31,8 +32,4 @@ elseif (UNIX AND NOT APPLE)
     set(COMPLETE_BINARY_NAME backing)
 endif()
 
-install(TARGETS ${APP_NAME}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/${COMPLETE_BINARY_NAME}
-)
-
-set(CPACK_INSTALL_CMAKE_PROJECTS "${CMAKE_BINARY_DIR}/build/bin/${COMPLETE_BINARY_NAME};${APP_NAME};ALL;/")
+include(CPack)

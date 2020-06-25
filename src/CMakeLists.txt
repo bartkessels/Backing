@@ -7,7 +7,7 @@ set(CMAKE_AUTORCC ON)
 
 find_package(Qt5 COMPONENTS Widgets Core REQUIRED)
 find_package(Boost COMPONENTS system REQUIRED)
-set(LIBRARIES Boost::system cpprest Qt5::Widgets)
+set(LIBRARIES Boost::system Qt5::Widgets cpprest)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -50,7 +50,7 @@ add_executable(
 
 install(TARGETS ${BINARY_NAME}
         RUNTIME
-        DESTINATION
+        DESTINATION bin
 )
 
 # Libraries
