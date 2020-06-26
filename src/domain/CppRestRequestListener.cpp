@@ -6,15 +6,23 @@ bool CppRestRequestListener::startListener(const std::string &uri)
 {
     listener = std::make_unique<http_listener>(uri);
     listener->support([=](const web::http::http_request& request) {
-        this->log(request.method() + " request received on " + request.request_uri().resource().to_string());
+        const std::string requestMethod = utility::conversions::to_utf8string(request.method());
+        const std::string requestResource = utility::conversions::to_utf8string(request.request_uri().resource().to_string());
+
+        this->log(requestMethod + " request received on " + requestResource);
 
         try {
-            std::shared_ptr<Response> response = getResponse(request.method());
+            std::shared_ptr<Response> response = getResponse(requestMethod);
+            const utility::string_t responseBody = utility::conversions::to_string_t(response->body);
+
             web::http::http_response httpResponse(response->statusCode);
-            httpResponse.set_body(response->body);
+            httpResponse.set_body(responseBody);
 
             for (const auto& [header, value]: response->headers) {
-                httpResponse.headers().add(header, value);
+                const utility::string_t responseHeader = utility::conversions::to_string_t(header);
+                const utility::string_t responseHeaderValue = utility::conversions::to_string_t(value);
+
+                httpResponse.headers().add(responseHeader, responseHeaderValue);
             }
 
             request.reply(httpResponse);
