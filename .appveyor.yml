@@ -1,5 +1,5 @@
 image:
-  - Visual Studio 2019
+  - Visual Studio 2017
 platform:
   - x64
 configuration: Release
@@ -11,7 +11,7 @@ environment:
 
 init:
   - set PATH=%QT_DIR%\bin;%PATH%
-  - call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
+  - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
 
 install:
   - vcpkg install --triplet x64-windows zlib openssl websocketpp brotli
@@ -23,7 +23,8 @@ before_build:
 
 build_script:
   - cmake .. -DCMAKE_PREFIX_PATH=%QT_DIR%;%BOOST_DIR% -DCMAKE_TOOLCHAIN_FILE=%VCPKG_DIR%\scripts\buildsystems\vcpkg.cmake
-  - devenv Backing.sln /deploy Release /Project backing
+  - devenv Backing.sln /deploy Release
+  - bin/Release/backing_tests.exe
   - cpack
   - copy Backing-*.exe %APPVEYOR_BUILD_FOLDER%\backing_win_x64.exe
 
