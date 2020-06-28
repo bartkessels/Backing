@@ -22,7 +22,7 @@ Application to mock your back-end for front-end testing
 - [5. Build](#5-build)
     - [5.1 MacOS](#51-macos)
     - [5.2 Linux](#52-linux)
-    - [5.3 Windows](53-windows)
+    - [5.3 Windows](#53-windows)
 - [6. Packaging](#6-packaging)
     - [6.1 Macos](#61-macos)
     - [6.2 Linux](#62-linux)
@@ -51,8 +51,6 @@ we'd like to implement in foreseeable future are:
 
 There are some things we want get up and running to make life easier for the developers of Backing, mostly for distributing the application.
 
-- Setup an automated CD pipeline
-- Setup CI for Windows machine
 - Setup GUI test framework
 
 ## 4. Required packages
