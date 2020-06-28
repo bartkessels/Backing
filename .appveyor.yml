@@ -14,6 +14,11 @@ init:
   - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
 
 install:
+  - set CMAKE_URL=https://github.com/Kitware/CMake/releases/download/v3.17.3/cmake-3.17.3.zip
+  - appveyor DownloadFile %CMAKE_URL% -FileName cmake.zip
+  - 7z x cmake.zip -oC:\projects\deps > nul
+  - move C:\projects\deps\cmake-* C:\projects\deps\cmake
+  - set PATH=C:\projects\deps\cmake\bin;%PATH%
   - vcpkg install --triplet x64-windows zlib openssl websocketpp brotli
   - vcpkg integrate install
 
