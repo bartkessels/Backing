@@ -14,7 +14,7 @@ init:
   - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
 
 install:
-  - vcpkg install --triplet x64-windows zlib openssl websocketpp brotli
+  - vcpkg install --triplet x64-windows zlib openssl websocketpp brotli boost
   - vcpkg integrate install
 
 before_build:
