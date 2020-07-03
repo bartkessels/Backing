@@ -5,7 +5,7 @@ platform:
 configuration: Release
 
 environment:
-  QT_DIR: C:\Qt\latest\msvc2017_64
+  QT_DIR: C:\Qt\latest\msvc2019_64
   BOOST_DIR: C:\Libraries\boost_1_73_0
   VCPKG_DIR: C:\tools\vcpkg
 
