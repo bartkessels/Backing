@@ -125,7 +125,7 @@ To install Backing we need to create an installable package for the platform you
 You can only execute these steps if you've already built the application. The working directory for all the following
 platforms is assumed to be `build`.
 
-### 6.1 Macos
+### 6.1 MacOS
 
 On MacOS we'll create a `bash` script which will install the required `backing.app` on your system. Simply execute this
 script with the `--prefix/usr` flag to install it globally.
