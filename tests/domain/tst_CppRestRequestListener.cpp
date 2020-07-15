@@ -82,7 +82,8 @@ TEST_CASE("listener returns response with given headers")
 
     // Act & Assert
     sendRequest(method, uri, [=](const web::http::http_response& actualResponse) {
-        const std::string responseHeaderValue = utility::conversions::to_utf8string(actualResponse.headers().find(customHeader)->second);
+        const utility::string_t expectedHeader = utility::conversions::to_string_t(customHeader);
+        const std::string responseHeaderValue = utility::conversions::to_utf8string(actualResponse.headers().find(expectedHeader)->second);
 
         REQUIRE(responseHeaderValue == customHeaderValue);
     });
