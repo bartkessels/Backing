@@ -107,6 +107,8 @@ Use `./bin/backing` to execute the application
 ### 5.3 Windows
 
 ```bat
+> mkdir build
+> cd build
 > cmake ..
 > devenv Backing.sln /deploy Release
 ```
