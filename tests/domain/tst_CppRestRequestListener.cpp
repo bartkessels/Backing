@@ -12,10 +12,13 @@ using namespace backing::domain;
 void sendRequest(const std::string& method, const std::string& uri, std::function<void(web::http::http_response)> callback) {
     bool requestSent = false;
 
-    web::http::client::http_client client(uri);
+    const std::string requestMethod = utility::conversions::to_utf8string(method);
+    const std::string requestUri = utility::conversions::to_utf8string(uri);
+
+    web::http::client::http_client client(requestUri);
     web::http::http_request request;
 
-    request.set_method(method);
+    request.set_method(requestMethod);
     client.request(request).then([&](web::http::http_response response) {
         callback(std::move(response));
 
@@ -79,7 +82,9 @@ TEST_CASE("listener returns response with given headers")
 
     // Act & Assert
     sendRequest(method, uri, [=](const web::http::http_response& actualResponse) {
-        REQUIRE(actualResponse.headers().find(customHeader)->second == customHeaderValue);
+        const std::string responseHeaderValue = utility::conversions::to_utf8string(actualResponse.headers().find(customHeader)->second);
+
+        REQUIRE(responseHeaderValue == customHeaderValue);
     });
 }
 
@@ -99,7 +104,9 @@ TEST_CASE("listener returns response with given body")
 
     // Act & Assert
     sendRequest(method, uri, [=](const web::http::http_response& actualResponse) {
-        REQUIRE(actualResponse.extract_string().get() == response->body);
+        const std::string responseBody = utility::conversions::to_utf8string(actualResponse.extract_string().get());
+
+        REQUIRE(responseBody == response->body);
     });
 }
 
@@ -169,6 +176,8 @@ TEST_CASE("listener keeps listening to requests after a starting, stopping and s
 
     // Act & Assert
     sendRequest(method, uri, [=](const web::http::http_response& actualResponse) {
-        REQUIRE(actualResponse.extract_string().get() == response->body);
+        const std::string responseBody = utility::conversions::to_utf8string(actualResponse.extract_string().get());
+
+        REQUIRE(responseBody == response->body);
     });
 }
