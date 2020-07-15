@@ -4,7 +4,7 @@ using namespace backing::domain;
 
 bool CppRestRequestListener::startListener(const std::string &uri)
 {
-    const std::string requestUri = utility::conversions::to_utf8string(uri);
+    const utility::string_t requestUri = utility::conversions::to_string_t(uri);
 
     listener = std::make_unique<http_listener>(requestUri);
     listener->support([=](const web::http::http_request& request) {
