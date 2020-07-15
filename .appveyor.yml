@@ -3,6 +3,8 @@ image:
 platform:
   - x64
 configuration: Release
+cache: 
+  - c:\tools\vcpkg\installed\
 
 environment:
   QT_DIR: C:\Qt\latest\msvc2019_64
