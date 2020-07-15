@@ -12,8 +12,8 @@ using namespace backing::domain;
 void sendRequest(const std::string& method, const std::string& uri, std::function<void(web::http::http_response)> callback) {
     bool requestSent = false;
 
-    const std::string requestMethod = utility::conversions::to_utf8string(method);
-    const std::string requestUri = utility::conversions::to_utf8string(uri);
+    const utility::string_t requestMethod = utility::conversions::to_string_t(method);
+    const utility::string_t requestUri = utility::conversions::to_string_t(uri);
 
     web::http::client::http_client client(requestUri);
     web::http::http_request request;
