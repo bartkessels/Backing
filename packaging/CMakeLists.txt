@@ -1,36 +1,48 @@
 cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
+include(InstallRequiredSystemLibraries)
 
 set(CPACK_PACKAGE_NAME ${APP_NAME})
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY ${PROJECT_DESCRIPTION})
 set(CPACK_PACKAGE_VENDOR "Bart Kessels")
+# set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_VERSION_MAJOR ${VER_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${VER_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${VER_PATCH})
-set(CPACK_PACKAGE_ICON ../resources/icons/main.svg)
+set(CPACK_COMPONENTS_ALL_IN_ONE_PACKAGE TRUE)
+# set(CPACK_PACKAGE_INSTALL_DIRECTORY "CMake ${CMake_VERSION_MAJOR}.${CMake_VERSION_MINOR}")
 
 if (WIN32)
-    set(COMPLETE_BINARY_NAME Release/backing.exe)
+    set(COMPLETE_BINARY_NAME Release/Backing.exe)
+    
+    # There is a bug in NSI that does not handle full UNIX paths properly.
+    # Make sure there is at least one set of four backlashes.
+    set(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}/packaging/windows/installIcon.bmp")
+    set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\${BINARY_NAME}")
+    set(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_INSTALL_DIRECTORY} ${APP_NAME}")
+    set(CPACK_NSIS_URL_INFO_ABOUT "${PROJECT_URI}")
+    set(CPACK_NSIS_MODIFY_PATH ON)
 elseif (APPLE)
-    set_target_properties(${BINARY_NAME} PROPERTIES MACOSX_BUNDLE TRUE)
-    set_target_properties(
-        ${BINARY_NAME}
-        PROPERTIES
-        RESOURCE "macos/icons/backing.icns"
-    )
-
     set(COMPLETE_BINARY_NAME backing.app)
 
-    set(CPACK_BUNDLE_NAME Backing)
-    set(CPACK_BUNDLE_PLIST macos/Info.plist)
-    set(CPACK_BUNDLE_ICON macos/icons/backing.icns)
-    set(CPACK_PRODUCTBUILD_RESOURCES_DIR macos)
+    set_target_properties(${BINARY_NAME} PROPERTIES MACOSX_BUNDLE TRUE)
 
-    set(MACOSX_FRAMEWORK_ICON_FILE macos/icons/backing.icns)
-    set(MACOSX_FRAMEWORK_IDENTIFIER net.bartkessels.backing)
+    set(CPACK_BUNDLE_STARTUP_COMMAND "${CMAKE_BINARY_DIR}/bin/backing.app/Contents/MacOS/backing")
+    set(CPACK_BUNDLE_ICON "${CMAKE_SOURCE_DIR}/packaging/macos/icons/backing.icns")
+    set(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}/packaging/macos/icons/backing.icns")
+    set(CPACK_BUNDLE_PLIST "${CMAKE_SOURCE_DIR}/packaging/macos/Info.plist")
+    set(CPACK_BUNDLE_NAME "${APP_NAME}")
 elseif (UNIX AND NOT APPLE)
     set(COMPLETE_BINARY_NAME backing)
-endif()
+    # set(CPACK_STRIP_FILES "bin/${BINARY_NAME}")
+else ()
+#   set(CPACK_SOURCE_STRIP_FILES "")
+endif ()
 
-install(TARGETS ${APP_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/${COMPLETE_BINARY_NAME})
-set(CPACK_INSTALL_CMAKE_PROJECTS "${CMAKE_BINARY_DIR}/build/bin/${COMPLETE_BINARY_NAME};${APP_NAME};ALL;/")
+# set(CPACK_PACKAGE_EXECUTABLES "${APP_NAME}" "bin/${COMPLETE_BINARY_NAME}")
+
+
+# install(TARGETS ${BINARY_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/${COMPLETE_BINARY_NAME})
+# set(CPACK_INSTALL_CMAKE_PROJECTS "${CMAKE_BINARY_DIR}/bin/${COMPLETE_BINARY_NAME};${APP_NAME};ALL;/")
+
 
 include(CPack)

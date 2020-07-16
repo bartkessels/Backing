@@ -129,13 +129,12 @@ platforms is assumed to be `build`.
 
 ### 6.1 MacOS
 
-On MacOS we'll create a `bash` script which will install the required `backing.app` on your system. Simply execute this
-script with the `--prefix/usr` flag to install it globally.
+On MacOS we'll create an installer in which you can drag the binary to the applications folder.
 
-By executing the following command you'll get the `Backing-<verion_number>-Darwin.sh` file in the `build` directory.
+By executing the following command you'll get the `Backing-<verion_number>-Darwin.dmg` file in the `build` directory.
 
 ```bash
-$ cpack
+$ cpack -G Bundle
 ```
 
 ### 6.2 Linux

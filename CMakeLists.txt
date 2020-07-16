@@ -1,13 +1,16 @@
 cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
 
+set(APP_NAME Backing)
 set(BINARY_NAME backing)
+set(PROJECT_DESCRIPTION "Application to mock your back-end for front-end testing")
+set(PROJECT_URI "https://backing.bartkessels.net")
 set(VER_MAJOR 0)
 set(VER_MINOR 0)
 set(VER_PATCH 1)
 
-project(Backing
+project(${APP_NAME}
     VERSION ${VER_MAJOR}.${VER_MINOR}.${VER_PATCH}
-    DESCRIPTION "Application to mock your back-end for front-end testing"
+    DESCRIPTION ${PROJECT_DESCRIPTION}
     HOMEPAGE_URL "https://github.com/bartkessels/backing"
 )
 

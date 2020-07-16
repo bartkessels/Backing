@@ -86,7 +86,7 @@ jobs:
         - cmake .. -DCMAKE_PREFIX_PATH=/usr/local/opt/qt -DOPENSSL_ROOT_DIR=$MAC_OPENSSL_DIR -DOPENSSL_LIBRARIES=$MAC_OPENSSL_DIR/lib
         - make backing backing_tests
         - ./bin/backing_tests
-        - cpack
+        - cpack -G Bundle
 
     - stage: build & test
       os: osx
@@ -96,12 +96,12 @@ jobs:
       before_script: *before_script_macos
       script: *script_macos_test
       before_deploy:
-        - mv ./backing-*.sh ./backing_macos_x64.sh
+        - mv ./backing-*.dmg ./backing_macos_x64.dmg
       deploy:
         provider: releases
         token:
           secure: $GITHUB_OAUTH_TOKEN
-        file: ./backing_macos_x64.sh
+        file: ./backing_macos_x64.dmg
         cleanup: false
         skip_cleanup: true
         on:
