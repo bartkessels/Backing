@@ -20,9 +20,8 @@ Application to mock your back-end for front-end testing
 - [3. Roadmap](#3-roadmap)
 - [4. Required packages](#4-required-packages)
 - [5. Build](#5-build)
-    - [5.1 MacOS](#51-macos)
-    - [5.2 Linux](#52-linux)
-    - [5.3 Windows](#53-windows)
+    - [5.1 Linux](#51-macos-&-linux)
+    - [5.2 Windows](#53-windows)
 - [6. Packaging](#6-packaging)
     - [6.1 Macos](#61-macos)
     - [6.2 Linux](#62-linux)
@@ -72,23 +71,7 @@ The packages you need to install
 
 ## 5. Build
 
-### 5.1 MacOS
-
-```bash
-$ mkdir build
-$ cd build
-$ cmake ..
-$ make
-```
-
-After these commands completed you'll get two files in the `bin` folder, one for running the tests and
-a `.app` file which you can execute to run Backing.
-
-Use `./bin/backing_tests` to run the tests
-
-Use `open bin/backing.app` to execute the application
-
-### 5.2 Linux
+### 5.1 MacOS & Linux
 
 ```bash
 $ mkdir build
@@ -104,7 +87,7 @@ Use `./bin/backing_tests` to run the tests
 
 Use `./bin/backing` to execute the application
 
-### 5.3 Windows
+### 5.2 Windows
 
 ```bat
 > mkdir build
@@ -116,9 +99,9 @@ Use `./bin/backing` to execute the application
 After these commands completed you'll get two files in the `bin/Release` folder, one for running the tests and
 one for executing Backing itself.
 
-Use `bin/Release/backing_tests.exe` to run the tests
+Use `open bin/Release/backing_tests.exe` to run the tests
 
-Use `bin/Release/backing.exe` to execute the application
+Use `open bin/Release/backing.exe` to execute the application
 
 ## 6. Packaging
 
@@ -134,6 +117,8 @@ On MacOS we'll create an installer in which you can drag the binary to the appli
 By executing the following command you'll get the `Backing-<verion_number>-Darwin.dmg` file in the `build` directory.
 
 ```bash
+$ cd build
+$ cmake ..
 $ cpack -G Bundle
 ```
 
@@ -145,6 +130,8 @@ script with the `--prefix/usr` flag to install it globally.
 By executing the following command you'll get the `Backing-<version-number>-Linux.sh` file in the `build` directory.
 
 ```bash
+$ cd build
+$ cmake ..
 $ cpack
 ``` 
 
@@ -155,5 +142,7 @@ On Windows we'll create an executable to install Backing into the program files 
 By executing the following command you'll get the `Backing-<version_number>-Windows.exe` file in the `build` directory.
 
 ```bat
+> cd build
+> cmake ..
 > cpack
 ```

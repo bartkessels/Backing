@@ -49,21 +49,13 @@ add_executable(
 )
 
 install(TARGETS ${BINARY_NAME}
-        RUNTIME
-        DESTINATION bin
+        RUNTIME DESTINATION bin
 )
 
 # Libraries
 target_link_libraries(${BINARY_NAME} ${LIBRARIES})
 
-if (APPLE)
-    add_custom_command(
-            TARGET ${BINARY_NAME}
-            POST_BUILD
-            COMMAND macdeployqt bin/${BINARY_NAME}.app
-            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    )
-elseif (WIN32)
+if (WIN32)
     add_custom_command(
             TARGET ${BINARY_NAME}
             POST_BUILD

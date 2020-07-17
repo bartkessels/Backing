@@ -96,7 +96,7 @@ jobs:
       before_script: *before_script_macos
       script: *script_macos_test
       before_deploy:
-        - mv ./backing-*.dmg ./backing_macos_x64.dmg
+        - mv ./Backing-*.dmg ./backing_macos_x64.dmg
       deploy:
         provider: releases
         token:
