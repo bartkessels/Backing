@@ -54,12 +54,3 @@ install(TARGETS ${BINARY_NAME}
 
 # Libraries
 target_link_libraries(${BINARY_NAME} ${LIBRARIES})
-
-if (WIN32)
-    add_custom_command(
-            TARGET ${BINARY_NAME}
-            POST_BUILD
-            COMMAND windeployqt.exe bin/Release/${BINARY_NAME}.exe
-            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    )
-endif ()

@@ -11,10 +11,8 @@ set(CPACK_PACKAGE_VERSION_PATCH ${VER_PATCH})
 set(CPACK_COMPONENTS_ALL_IN_ONE_PACKAGE TRUE)
 
 if (WIN32)
-    # There is a bug in NSI that does not handle full UNIX paths properly.
-    # Make sure there is at least one set of four backlashes.
     set(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}/packaging/windows/installIcon.bmp")
-    set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\${BINARY_NAME}")
+    set(CPACK_NSIS_INSTALLED_ICON_NAME "${CMAKE_BINARY_DIR}/bin/${BINARY_NAME}")
     set(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_INSTALL_DIRECTORY} ${APP_NAME}")
     set(CPACK_NSIS_URL_INFO_ABOUT "${PROJECT_URI}")
     set(CPACK_NSIS_MODIFY_PATH ON)
