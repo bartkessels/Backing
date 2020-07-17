@@ -6,6 +6,9 @@ configuration: Release
 cache: 
   - c:\tools\vcpkg\installed\
 
+on_failure:
+  - appveyor PushArtifact C:\projects\backing\build\_CPack_Packages\win64\NSIS\NSISOutput.log
+
 environment:
   QT_DIR: C:\Qt\latest\msvc2019_64
   BOOST_DIR: C:\Libraries\boost_1_73_0
