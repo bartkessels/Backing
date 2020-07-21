@@ -8,6 +8,7 @@ cache:
 
 on_failure:
   - appveyor PushArtifact C:\projects\backing\build\_CPack_Packages\win64\NSIS\NSISOutput.log
+  - appveyor PushArtifact C:\projects\backing\build\_CPack_Packages\win64\NSIS\project.nsi
 
 environment:
   QT_DIR: C:\Qt\latest\msvc2019_64
